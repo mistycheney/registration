@@ -6,7 +6,6 @@ from registration.config import *
 
 def detect_keypoints(stack_id, sections):
     imnames = [SECTION_FOLDER + str(stack_id) + '/' + str(stack_id) + '_' + str(sec) + '.tif' for sec in sections]
-    print imnames
     d = [sift.detect(name) for name in imnames]
     return d
 
@@ -62,7 +61,11 @@ def accumulate_transforms(d, A, reverse=False):
         
     return H_valid, ims_reg
 
-if __name__ == '__main__':    
+if __name__ == '__main__':
+    
+    import time
+    begin = time.time()
+    
     nsections = {3:0, 4:40, 5:32, 6:34, 9:28, 10:80}
     stack_id = 4
     nsection = nsections[stack_id]
@@ -87,7 +90,9 @@ if __name__ == '__main__':
 
     H, ims_reg = accumulate_transforms(d, A,reverse=False)
         
-    util.Plotter('Stack '+str(stack_id), ims_reg, 0)
+    print time.time() - begin
+        
+#    util.Plotter('Stack '+str(stack_id), ims_reg, 0)
     
 #    im_reg =[None] * nsections
 #    for i,im in enumerate(ims):

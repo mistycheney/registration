@@ -1,36 +1,37 @@
 import os, sys
-from pylab import *
 import cv2
 from registration import util, ransac, transform
-from registration.config import *
+from registration import config
 import scipy
+import numpy as np
+import matplotlib.pyplot as plt
 
 def detect(filename):
     im = cv2.imread(filename, 0)
     if im is None:
         raise ValueError('im is None')
-    if ndim(im) == 3:
+    if np.ndim(im) == 3:
         im = cv2.cvtColor(im, cv2.cv.CV_RGB2GRAY)
     olddir = os.getcwd()
-    os.chdir(TMP_FOLDER)
+    os.chdir(config.TMP_FOLDER)
     imagename = 'tmp.pgm'
     cv2.imwrite(imagename, im, (cv2.cv.CV_IMWRITE_PXM_BINARY, 0))
     
     cmmd = str("/Users/yuncong/Documents/vlfeat-0.9.14/bin/maci64/sift " + 
                imagename + " --output=%.sift" + 
-            " --edge-thresh=" + str(EDGE_THRESH) + " --peak-thresh=" + str(PEAK_THRESH) + 
+            " --edge-thresh=" + str(config.EDGE_THRESH) + " --peak-thresh=" + str(config.PEAK_THRESH) + 
             " --gss=%.pgm")
 #             + "-vv")
 #            --octaves=1 --levels=1 --first-octave=0")
     util.execute(cmmd)
     
-    f = loadtxt('tmp.sift')
-    keypoints, descriptors = array(f[:, :4]), array(f[:, 4:])
+    f = np.loadtxt('tmp.sift')
+    keypoints, descriptors = np.array(f[:, :4]), np.array(f[:, 4:])
     print len(keypoints), 'keypoints found'
     
-    if SHOW_DETECT:
+    if config.SHOW_DETECT:
         draw_keypoints(im, keypoints, 'b')
-        show()
+        plt.show()
     
     os.chdir(olddir)
     return keypoints, descriptors, filename
@@ -54,43 +55,43 @@ def match(d_from, d_to):
     kp_s, desc_s, name_from = d_from
     kp_d, desc_d, name_to = d_to
     
-    if SHOW_MATCH:
+    if config.SHOW_MATCH:
         im_from = cv2.imread(name_from, 0)
         im_to = cv2.imread(name_to, 0)
     
     D = scipy.spatial.distance.cdist(desc_s, desc_d)
 
-    sorted_idx = argsort(D, axis=1)
+    sorted_idx = np.argsort(D, axis=1)
     idx_match_forward = [(r_idx, row[0]) for r_idx, row in enumerate(sorted_idx) 
-                    if D[r_idx, row[0]] < DIST_RATIO * D[r_idx, row[1]]
-                    and D[r_idx, row[0]] < DIST_THRESH]
+                    if D[r_idx, row[0]] < config.DIST_RATIO * D[r_idx, row[1]]
+                    and D[r_idx, row[0]] < config.DIST_THRESH]
 
     DT = D.T
-    sorted_idx = argsort(DT, axis=1)
+    sorted_idx = np.argsort(DT, axis=1)
     idx_match_inv = [(r_idx, row[0]) for r_idx, row in enumerate(sorted_idx) 
-                    if DT[r_idx, row[0]] < DIST_RATIO * DT[r_idx, row[1]]
-                    and DT[r_idx, row[0]] < DIST_THRESH]
+                    if DT[r_idx, row[0]] < config.DIST_RATIO * DT[r_idx, row[1]]
+                    and DT[r_idx, row[0]] < config.DIST_THRESH]
 
-    idx_match = array([m for m in idx_match_forward if m[::-1] in idx_match_inv]) 
+    idx_match = np.array([m for m in idx_match_forward if m[::-1] in idx_match_inv]) 
 #    print idx_match
     
     n_match = idx_match.shape[0]
     print n_match, 'matches', 'after standout and score filtering'
     
-    if SHOW_MATCH:
+    if config.SHOW_MATCH:
 #        for i in range(n_match):
 #            draw_match(im_from, kp_s[idx_match[i:i+1, 0]], im_to, kp_d[idx_match[i:i+1, 1]])
 #            show()
         draw_match(im_from, kp_s[idx_match[:, 0]], im_to, kp_d[idx_match[:, 1]])
     
     if n_match > 0:
-        pt_match = hstack([kp_s[idx_match[:, 0].T, :2], kp_d[idx_match[:, 1].T, :2]])
+        pt_match = np.hstack([kp_s[idx_match[:, 0].T, :2], kp_d[idx_match[:, 1].T, :2]])
     else:
         raise ValueError('Failed at standout filtering')
             
     try:
         A, inlier, err = transform.transform_ransac(pt_match[:, :2], \
-                                                pt_match[:, 2:], ransac.Model(MODEL))
+                                                pt_match[:, 2:], ransac.Model(config.MODEL))
         idx_match = idx_match[inlier]
 #        print idx_match
     except ValueError as e:
@@ -98,13 +99,13 @@ def match(d_from, d_to):
         return None, None, None
     
     print len(inlier), 'matches', 'after RANSAC'
-    if SHOW_MATCH:
+    if config.SHOW_MATCH:
         draw_match(im_from, kp_s[idx_match[:, 0]], im_to, kp_d[idx_match[:, 1]])
 
     print 'err:', err
     print 'A:', A
     
-    if SHOW_MATCH:
+    if config.SHOW_MATCH:
         draw_registration(im_from, A, im_to)
     
     return A, idx_match, err
@@ -122,10 +123,10 @@ def get_matching(d_from, d_to):
         
 
 def draw_circle(c, r, color):
-        t = arange(0, 1.01, .01) * 2 * pi
-        x = r * cos(t) + c[0]
-        y = r * sin(t) + c[1]
-        plot(x, y, color, linewidth=2)
+        t = np.arange(0, 1.01, .01) * 2 * np.pi
+        x = r * np.cos(t) + c[0]
+        y = r * np.sin(t) + c[1]
+        plt.plot(x, y, color, linewidth=2)
 
 
 def draw_keypoints(im, kp, colors):
@@ -134,33 +135,33 @@ def draw_keypoints(im, kp, colors):
         im = cv2.imread(im, 0)
 
 #    figure(); 
-    gray(); axis('off')
+    plt.gray(); plt.axis('off')
 #    im_circle = im[:]
 #    cv2.imshow('SIFT Keypoints', im_circle)
-    imshow(im)
+    plt.imshow(im)
     for i in range(len(kp)):
         c = colors[i % len(colors)]
         kp0 = kp[i]
         larger_size = 1 * kp0[2]
         draw_circle(kp0[:2], larger_size, c)
-        plot([kp0[0], kp0[0] + larger_size * cos(kp0[3])],
-             [kp0[1], kp0[1] + larger_size * sin(kp0[3])], c)
+        plt.plot([kp0[0], kp0[0] + larger_size * np.cos(kp0[3])],
+             [kp0[1], kp0[1] + larger_size * np.sin(kp0[3])], c)
 #    show()
 
 def draw_match(im_from, kp_from, im_to, kp_to):    
     colors = 'rgbkcym'
-    figure()
-    subplot(121)
+    plt.figure()
+    plt.subplot(121)
     draw_keypoints(im_from, kp_from, colors)
-    subplot(122)
+    plt.subplot(122)
     draw_keypoints(im_to, kp_to, colors)
-    show()
+    plt.show()
 
 def draw_overlap(im_from, im_to):
     im_overlay = cv2.addWeighted(im_from, 0.5, im_to, 0.5, 0)
-    figure(); gray(); axis('off')
-    imshow(im_overlay)
-    show()
+    plt.figure(); plt.gray(); plt.axis('off')
+    plt.imshow(im_overlay)
+    plt.show()
     
 def draw_registration(im_from, A, im_to):
     if A is not None:
@@ -182,8 +183,8 @@ if __name__ == '__main__':
 #    image_from_name = '{0}_{1}.tif'.format(stack_id, sec_num)
 #    image_from_name = SECTION_FOLDER + image_from_name 
 #
-    d_from = detect(SECTION_FOLDER + image_from_name)
-    d_to = detect(ALLEN_FOLDER + image_to_name)
+    d_from = detect(config.SECTION_FOLDER + image_from_name)
+    d_to = detect(config.ALLEN_FOLDER + image_to_name)
     
 #    im_from = cv2.imread(image_from_name, 0)
 #    im_to = cv2.imread(image_to_name, 0)

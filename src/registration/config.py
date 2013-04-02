@@ -1,14 +1,28 @@
 import cv2
+import os
+import numpy as np
 
-DATA_FOLDER = '/Users/yuncong/Documents/medical_images/'
+if os.environ['HOME'] == '/Users/yuncong':
+    DATA_FOLDER = '/Users/yuncong/Documents/brain images/'
+    PROJ_FOLDER = '/Users/yuncong/Documents/workspace/Registration/'
+else:
+    DATA_FOLDER = '/oasis/scratch/csd181/yuncong/'
+    PROJ_FOLDER = '/oasis/scratch/csd181/yuncong/registration/'
 SLIDE_FOLDER = DATA_FOLDER + 'Slide/'
 SECTION_FOLDER = DATA_FOLDER + 'Section/'
 ALLEN_FOLDER = DATA_FOLDER + 'Allen/'
 
-PROJ_FOLDER = '/Users/yuncong/Documents/workspace/Registration/'
+SCORES_FOLDER = PROJ_FOLDER + 'scores/' 
 SRC_FOLDER = PROJ_FOLDER + 'src/registration/'
 PICKLE_FOLDER = PROJ_FOLDER + 'pickle/'
 TMP_FOLDER = PROJ_FOLDER + 'tmp/'
+
+ZOOM = 5
+
+TX_RANGE =  np.arange(-100, 100, 5)
+TY_RANGE = np.arange(-100, 100, 5)
+#THETA_RANGE = np.arange(-np.pi / 6, np.pi / 6, np.pi / 6 / 10)
+THETA_RANGE = np.arange(-np.pi / 5, np.pi / 5, np.pi / 90)
 
 # ndpi thresholds
 MIN_AREA = 2000

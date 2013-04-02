@@ -32,20 +32,26 @@ def ndpi_split(stack_id, slide_num, stain='nissl'):
         print >> sys.stderr, "Execution failed:", e
 
 
-def split_slide(stack_id, slide_num, section_id):
-    imname = SLIDE_FOLDER + '{0}_{1}_x0.3125_z0.tif'.format(str(stack_id), str(slide_num))
+def split_slide(stack_id, slide_num, starting_section_id):
+    '''Segment a tif slide containing multiple section images.
+    '''
+#    imname = SLIDE_FOLDER + '{0}_{1}_x0.3125_z0.tif'.format(str(stack_id), str(slide_num))
+    imname = '/Users/yuncong/Documents/brain images/I.tif'
     img = imread(imname)
     h, w = img.shape[:2]
     img = cv2.cvtColor(img, cv2.cv.CV_RGB2GRAY)
             
-    def find_large_contours(img_thresh):
-        img_thresh[:, 0] = 0
-        img_thresh[:, -1] = 0
-        img_thresh[0, :] = 0
-        img_thresh[-1, :] = 0
+    def find_large_contours(thresh_image):
+        '''
+        return only the "large" contours.
+        '''
+        thresh_image[:, 0] = 0
+        thresh_image[:, -1] = 0
+        thresh_image[0, :] = 0
+        thresh_image[-1, :] = 0
         
-        h, w = tuple(img_thresh.shape[:2])
-        contours, hierarchy = cv2.findContours(img_thresh.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        h, w = tuple(thresh_image.shape[:2])
+        contours, hierarchy = cv2.findContours(thresh_image.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         all_bbox = [cv2.boundingRect(i) for i in contours]
         all_area = array([cv2.contourArea(c) for c in contours])
         all_aspect_ratio = array([float(b[2]) / b[3] for b in all_bbox])
@@ -61,7 +67,10 @@ def split_slide(stack_id, slide_num, section_id):
         return large_contours, mask[:, :, 0]
 
     def clean(img, white_bg=True):
-        from scipy import ndimage
+        '''
+        clean a slide image, so that only the interesting parts are kept
+        '''
+#        from scipy import ndimage
         
     #    cv2.imshow('',img)
     #    cv2.waitKey()
@@ -97,6 +106,9 @@ def split_slide(stack_id, slide_num, section_id):
         return img_clean, large_contours
     
     def show_contours(cnts, fill=False, show=False, title=''):
+        '''
+        A utility function that returns a white-background image showing the contour given by cnts.
+        '''
         vis = zeros((h, w, 1), uint8)
         if fill:
             cv2.drawContours(vis, cnts, -1, 255, -1)
@@ -114,6 +126,9 @@ def split_slide(stack_id, slide_num, section_id):
 ##                          (b[0]+b[2],b[1])]).reshape(4, 1, 2)
 
     def union_contours(cnts, mode):
+        '''
+        merge several contours, given a mode among "bbox", "hull" or "contourArea".
+        '''
         mask = show_contours(cnts, fill=True, show=False)
         contours, hierarchy = cv2.findContours(mask, cv2.RETR_LIST, \
                                      cv2.CHAIN_APPROX_SIMPLE)
@@ -140,6 +155,10 @@ def split_slide(stack_id, slide_num, section_id):
         
     
     def split_contour(contour_groups, bbox):
+        '''
+        split a contour into smaller contours of parts that are likely to belong to different sections.
+        
+        '''
         
         area = float32([(b[3][0][0] - b[1][0][0]) * (b[3][0][1] - b[1][0][1]) for b in bbox])
         order, area = zip(*sorted(list(enumerate(area)), key=lambda x:x[1]))
@@ -229,6 +248,10 @@ def split_slide(stack_id, slide_num, section_id):
         return contour_groups
              
     def find_groupings(contours):
+        '''
+        find all possible groupings given the contours. 
+        Formulate as a maximal independent set problem in graph.
+        '''
         show_contours(contours, show=True)
         n = len(contours)
 #        area = [cv2.contourArea(c) for c in contours]
@@ -308,12 +331,11 @@ def split_slide(stack_id, slide_num, section_id):
             indep = networkx.algorithms.maximal_independent_set(G)
             groupings.add(frozenset([overlap_groups[i] for i in indep]))
 
-        print len(groupings), 'groupings'
+        print 'Total', len(groupings), 'groupings'
 #        for grouping in  groupings:
 #            print grouping
         
         for i, grouping in enumerate(groupings.copy()):
-            print i
             for r in range(len(grouping)):
                 for subg in itertools.combinations(grouping, r):
                     groupings.add(frozenset(subg))
@@ -322,10 +344,13 @@ def split_slide(stack_id, slide_num, section_id):
 #        groupings = set(groupings)
 #        groupings = sorted(list(groupings))
         
-        print len(groupings), 'groupings' 
+        print 'After considering sub-groups,', len(groupings), 'groupings' 
         return groupings
         
     def compare_groupings(contours, groupings):
+        '''
+        Compare the possible groupings, find the best grouping
+        '''
     
         area_std = []
         grouped_contours_list = []
@@ -412,6 +437,7 @@ def split_slide(stack_id, slide_num, section_id):
     idxes_sorted = sort_bboxes(bboxes)
     print 'idxes_sorted', idxes_sorted
     
+    section_id = starting_section_id
     for i in idxes_sorted:
             
         group = grouped_contours[i]
@@ -421,7 +447,7 @@ def split_slide(stack_id, slide_num, section_id):
         sub_img = masked_img[bbox[2][0][1]:bbox[0][0][1], bbox[0][0][0]:bbox[2][0][0]]
 
         print 'section_id', section_id
-        cv2.imwrite(SECTION_FOLDER + str(stack_id) + '/' + str(stack_id) + '_' + str(section_id) + '.tif', sub_img)
+#        cv2.imwrite(SECTION_FOLDER + str(stack_id) + '/' + str(stack_id) + '_' + str(starting_section_id) + '.tif', sub_img)
         section_id += 1
         cv2.imshow('', sub_img)
         cv2.waitKey()
@@ -437,7 +463,7 @@ if __name__ == '__main__':
     nslides = [10, 5, 4, 5, 7, 7]
     nslides = dict(zip(stack_ids, nslides))
 
-    stack_id = 3
+    stack_id = 4
     nslide = nslides[stack_id]
         
 #    for slide_num in range(1, nslide+1):
