@@ -44,7 +44,7 @@ class Aligner:
         info = allen.query_dataset(100048576)
         
         try:
-            self.allen_cnt_stack = pickle.load(open("allen_cnt_stack.p","rb"))
+            self.allen_cnt_stack = pickle.load(open(config.SRC_FOLDER + "allen_cnt_stack.p","rb"))
         except:
             pass
         
@@ -119,7 +119,7 @@ class Aligner:
         sys.stderr.write ('prepare_subject...'),
         begin = time.time()
         try:
-            self.subject_cnt_stack = pickle.load(open("subject_cnt_stack.p","rb"))
+            self.subject_cnt_stack = pickle.load(open(config.SRC_FOLDER + "subject_cnt_stack.p","rb"))
         except:
             pass
         for i in range(self.num_subject):
@@ -131,7 +131,8 @@ class Aligner:
         sys.stderr.write ('initial_shift...'),
         begin = time.time()
         try:
-            self.allen_match_id_stack_best = pickle.load(open('allen_match_id_stack_best.p', 'rb'))
+            self.allen_match_id_stack_best = pickle.load(open(config.SRC_FOLDER + 
+                                        'allen_match_id_stack_best.p', 'rb'))
         except:
             min_score = 9999
             subject_interval = 90 
