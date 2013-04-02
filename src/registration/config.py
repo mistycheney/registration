@@ -19,10 +19,13 @@ TMP_FOLDER = PROJ_FOLDER + 'tmp/'
 
 ZOOM = 5
 
-TX_RANGE =  np.arange(-100, 100, 5)
-TY_RANGE = np.arange(-100, 100, 5)
-#THETA_RANGE = np.arange(-np.pi / 6, np.pi / 6, np.pi / 6 / 10)
-THETA_RANGE = np.arange(-np.pi / 5, np.pi / 5, np.pi / 90)
+TX_RANGE =  np.arange(-100, 100, 10)
+TY_RANGE = np.arange(-100, 100, 10)
+THETA_RANGE = np.arange(-np.pi / 6, np.pi / 6, np.pi / 6 / 10)
+
+#TX_RANGE =  np.arange(-100, 100, 5)
+#TY_RANGE = np.arange(-100, 100, 5)
+#THETA_RANGE = np.arange(-np.pi / 5, np.pi / 5, np.pi / 90)
 
 # ndpi thresholds
 MIN_AREA = 2000

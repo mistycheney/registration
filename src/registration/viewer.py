@@ -6,8 +6,8 @@ Created on Mar 21, 2013
 
 import numpy as np
 import cv2
+from registration import contour
 from registration import scoring
-from registration import score_reader
 
 class StackViewer:
     def __init__(self, name, im_stack, i=0):
@@ -29,7 +29,7 @@ class StackCentroidViewer(StackViewer):
     def __init__(self, name, im_stack, i=0):
         self.name = name
         self.i = i
-        self.im_stack = [scoring.pad_image_cnt(im) for im in im_stack]
+        self.im_stack = [contour.pad_image_cnt(im) for im in im_stack]
         
 class StackAtlasMatchViewer(StackViewer):
     def __init__(self, name, alnr, i=0, overlay=True):
@@ -37,13 +37,15 @@ class StackAtlasMatchViewer(StackViewer):
         self.i = i
         self.im_stack = [None]*alnr.num_subject
         for j, im in enumerate(alnr.subject_stack):
-            if im is None: continue
-            opt = score_reader.ScoreReader('scores_allen_%d'%j).opt
+            opt = alnr.dSA[j]
+            print j, opt[0], opt[1], opt[2], np.rad2deg(opt[2])
             allen_im = alnr.allen_stack[alnr.allen_match_id_stack_best[j]]
-            allen_centroid = scoring.get_centroid(allen_im)
-            im_centered = scoring.pad_image_cnt(im)
-            im_t = scoring.transform_cnt(im_centered, None, opt,
-                                         anchor_im='centroid', anchor_bg=allen_centroid)
+            allen_centroid = contour.get_centroid(allen_im)
+#            im_centered = contour.pad_image_cnt(im)
+#            im_t = contour.transform_cnt(im_centered, None, opt,
+#                                         anchor_im='centroid', anchor_bg=allen_centroid)
+            im_t = contour.transform_cnt(im, None, opt,
+                            anchor_im='centroid', anchor_bg=allen_centroid)
             if overlay:
                 opacity = 0.3;
                 self.im_stack[j] = cv2.addWeighted(allen_im, opacity, im_t, 1 - opacity, 0)
@@ -57,14 +59,12 @@ class StackNeighborViewer(StackViewer):
         self.im_stack = [None]*alnr.num_subject
         self.im_nobg_stack = [None]*alnr.num_subject
         for j, im in enumerate(alnr.subject_stack):
-            if j==0 or j==alnr.num_subject-1: continue
-            if im is None: continue
-            im_centered = scoring.pad_image_cnt(im, None)
-            if j>1:
-                opt = score_reader.ScoreReader('scores_neighbor_%d'%(j)).opt    
+            im_centered = contour.pad_image_cnt(im, None)
+            if j>0:
+                opt = alnr.dSS[j]
                 print j, opt[0], opt[1], opt[2], np.rad2deg(opt[2])
-                prev_centroid = scoring.get_centroid(self.im_nobg_stack[j-1])
-                self.im_nobg_stack[j] = scoring.transform_cnt(im_centered, None,opt,
+                prev_centroid = contour.get_centroid(self.im_nobg_stack[j-1])
+                self.im_nobg_stack[j] = contour.transform_cnt(im_centered, None,opt,
                                                 anchor_im='centroid', anchor_bg=prev_centroid)
 
                 opacity = 0.3
@@ -74,11 +74,23 @@ class StackNeighborViewer(StackViewer):
                 prev_centroid = 'center'
                 self.im_stack[j] = im_centered
                 self.im_nobg_stack[j] = im_centered
-            cv2.circle(self.im_nobg_stack[j], scoring.get_centroid(self.im_nobg_stack[j]),
+            cv2.circle(self.im_nobg_stack[j], contour.get_centroid(self.im_nobg_stack[j]),
                         5, 0)
-        
+
 #        self.im_stack = self.im_nobg_stack
-        
+
+
+class StackGlobalViewer(StackViewer):
+    def __init__(self, name, alnr, i=0):
+        self.name = name
+        self.i = i
+        self.im_stack = [None]*alnr.num_subject
+        for j, im in enumerate(alnr.subject_stack):
+#            self.im_stack[j] = contour.transform_cnt(im, None, alnr.dGlobal[j],
+#                                anchor_im='centroid', anchor_bg=(0,0))
+            dg_adjusted = alnr.dGlobal[j].T - np.array([400,400,0])
+            self.im_stack[j] = contour.transform_cnt(im, None, np.squeeze(dg_adjusted),
+                                anchor_im='centroid', anchor_bg='center')
 
 class TransformViewer():
     def __init__(self, alnr, mode, id=0, name='TransformViewer'):
@@ -128,7 +140,7 @@ class TransformViewer():
                     print 'no effect'
                     continue
                 trfm = (self.x, self.y, self.theta)
-                s,D = scoring.compute_score_cnt(self.mov, self.cnt_mov,
+                s,D = contour.compute_score_cnt(self.mov, self.cnt_mov,
                                                 self.ref, self.cnt_ref,
                                                 'centroid', 'centroid', trfm,
                                                 show=True, showImg=self.showImg,

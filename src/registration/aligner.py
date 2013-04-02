@@ -11,6 +11,7 @@ from matplotlib import mlab
 
 from registration.contour import * 
 from registration import scoring
+import time
 
 # from facetemplatematch.filters.gaborfilter import GaborFilter
 
@@ -34,6 +35,7 @@ class Aligner:
         self.dA = dict([])
         self.HSS = dict([])
         self.HSA = dict([])
+        self.dGlobal = dict([])
     
     def prepare_allen(self):
         sys.stderr.write ('prepare_allen...',)
@@ -107,7 +109,7 @@ class Aligner:
     def prepare_subject(self):
         sys.stderr.write ('prepare_subject...'),
         begin = time.time()    
-        for i in range(1, self.num_subject):
+        for i in range(self.num_subject):
             img = cv2.imread(config.SECTION_FOLDER + '4/4_%d.tif' % i, 0)
             self.prepare_subject_each_img(i, img)
         sys.stderr.write('%d seconds\n' % (time.time() - begin))
@@ -129,7 +131,7 @@ class Aligner:
                 total_score = 0
             
                 allen_match_id_stack = [None] * self.num_subject
-                for i in range(1, self.num_subject):
+                for i in range(self.num_subject):
                     img = self.subject_stack[i]
                 
                     img_z = z0 - 90 * i
@@ -176,7 +178,7 @@ class Aligner:
         sys.stderr.write ('%d seconds\n' % (time.time() - begin))
 
     def optimize_atlas(self):
-        for i in range(1, self.num_subject):
+        for i in range(self.num_subject):
 #            sys.stderr.write(str(i))
             self.optimize_atlas_map(i)
             
@@ -223,9 +225,36 @@ class Aligner:
         sys.stderr.write ('%d seconds\n' % (time.time() - begin))
 
     def optimize_neighbor(self):
-        for i in range(2, self.num_subject):
+        for i in range(1, self.num_subject):
 #            sys.stderr.write (str(i))
             self.optimize_neighbor_each(i)
+            
+    def global_optimzation(self):
+        A = scipy.sparse.lil_matrix((3 * (2 * self.num_subject - 1), 3 * self.num_subject))
+        b = np.zeros((3 * (2 * self.num_subject - 1), 1))
+        for i in range(0, self.num_subject):
+            GL = self.HSA[i]
+            A[3 * i:3 * (i + 1), 3 * i:3 * (i + 1)] = GL
+            b[3 * i:3 * (i + 1)] = np.dot(GL, np.atleast_2d(
+                        self.dA[self.allen_match_id_stack_best[i]] - self.dSA[i]).T)
+            if i > 0:
+                HL = self.HSS[i]
+                A[3 * self.num_subject + 3 * (i - 1): 3 * self.num_subject + 3 * i,
+                   3 * (i - 1):3 * i] = -HL
+                A[3 * self.num_subject + 3 * (i - 1): 3 * self.num_subject + 3 * i,
+                   3 * i:3 * (i + 1)] = HL
+                b[3 * self.num_subject + 3 * (i - 1): 3 * self.num_subject + 3 * i ,
+                   :] = np.dot(HL, np.atleast_2d(self.dSS[i]).T)
+                    
+            #    print A.todense()
+            #    np.dot(R, R.T.conj())
+            
+            #    A = scipy.sparse.coo_matrix((V,(I,J)),shape=(4,4))
+            #    A = A.tocsr()
+        x, residual, rank, s = np.linalg.lstsq(A.todense(), b)
+        print 'residual', residual[0]
+        for i in range(self.num_subject):
+            self.dGlobal[i] = x[3*i:3*(i+1),:]
     
             
 if __name__ == '__main__':

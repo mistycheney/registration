@@ -29,7 +29,7 @@ def parse_line(line):
     return filename, img
 
 def txt2dict():
-    seg_name = config.DATA_FOLDER +'all.txt'
+    seg_name = config.DATA_FOLDER +'slide_seg_info.txt'
     seg_file = open(seg_name,'r')
     seg_lines = seg_file.readlines()
     seg_file.close()

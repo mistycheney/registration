@@ -6,7 +6,7 @@ import urllib
 import os
 from registration import config
 from registration import util
-from registration import sift
+#from registration import sift
 import numpy as np
 
 def get_api_response(url):
@@ -186,20 +186,20 @@ def retrieve_specimens(specimen_id):
 #                  [a3['tvr_06'],a3['tvr_07'],a3['tvr_08'],a3['tvr_11']]])
 #    return A2, A3
 
-def get_allen_matching_multisections(imname_from, dataset_id, section_numbers):
-    d_from = sift.detect(imname_from)
-    matchings = []
-    os.chdir(config.ALLEN_FOLDER + str(dataset_id) + '_clean')
-    for sec in section_numbers:
-        print '\nAllen:', sec
-        matching = get_allen_matching(d_from, dataset_id, sec)
-        matchings.append(matching)
-    return matchings
+#def get_allen_matching_multisections(imname_from, dataset_id, section_numbers):
+#    d_from = sift.detect(imname_from)
+#    matchings = []
+#    os.chdir(config.ALLEN_FOLDER + str(dataset_id) + '_clean')
+#    for sec in section_numbers:
+#        print '\nAllen:', sec
+#        matching = get_allen_matching(d_from, dataset_id, sec)
+#        matchings.append(matching)
+#    return matchings
     
-def get_allen_matching(d_from, dataset_id, section_number):
-    allen_name = get_filename(dataset_id, section_number)
-    d_to = sift.detect(allen_name)
-    return sift.get_matching(d_from, d_to)
+#def get_allen_matching(d_from, dataset_id, section_number):
+#    allen_name = get_filename(dataset_id, section_number)
+#    d_to = sift.detect(allen_name)
+#    return sift.get_matching(d_from, d_to)
 
                     
     

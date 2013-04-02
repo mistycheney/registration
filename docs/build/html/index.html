@@ -53,21 +53,23 @@
 <ul class="simple">
 </ul>
 </div>
-<span class="target" id="module-registration.contour"></span><dl class="function">
+<span class="target" id="module-registration.contour"></span><p>Created on Mar 21, 2013</p>
+<p>&#64;author: yuncong</p>
+<dl class="function">
 <dt id="registration.contour.clean">
-<tt class="descclassname">registration.contour.</tt><tt class="descname">clean</tt><big>(</big><em>img</em>, <em>white_bg=True</em><big>)</big><a class="headerlink" href="#registration.contour.clean" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">registration.contour.</tt><tt class="descname">clean</tt><big>(</big><em>img</em>, <em>bb=False</em>, <em>white_bg=True</em><big>)</big><a class="headerlink" href="#registration.contour.clean" title="Permalink to this definition">¶</a></dt>
 <dd><p>clean a slide image, so that only the interesting parts are kept</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="registration.contour.draw_contours">
-<tt class="descclassname">registration.contour.</tt><tt class="descname">draw_contours</tt><big>(</big><em>cnts</em>, <em>h</em>, <em>w</em>, <em>fill=False</em>, <em>show=False</em>, <em>title=''</em><big>)</big><a class="headerlink" href="#registration.contour.draw_contours" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">registration.contour.</tt><tt class="descname">draw_contours</tt><big>(</big><em>cnts</em>, <em>bg_size</em>, <em>fill=False</em>, <em>show=False</em>, <em>title=''</em>, <em>color=255</em><big>)</big><a class="headerlink" href="#registration.contour.draw_contours" title="Permalink to this definition">¶</a></dt>
 <dd><p>A utility function that returns a white-background image showing the contour given by cnts.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="registration.contour.find_large_contours">
-<tt class="descclassname">registration.contour.</tt><tt class="descname">find_large_contours</tt><big>(</big><em>thresh_image</em><big>)</big><a class="headerlink" href="#registration.contour.find_large_contours" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">registration.contour.</tt><tt class="descname">find_large_contours</tt><big>(</big><em>thresh_image</em>, <em>min_area=2000</em><big>)</big><a class="headerlink" href="#registration.contour.find_large_contours" title="Permalink to this definition">¶</a></dt>
 <dd><p>return only the &#8220;large&#8221; contours.</p>
 </dd></dl>
 

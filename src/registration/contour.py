@@ -104,6 +104,10 @@ def draw_contours(cnts, bg_size, fill=False, show=False, title='', color=255):
     return vis
 
 def pad_image_cnt(img, cnt=None, anchor_im='centroid', anchor_bg='center', bg=(800, 800)):
+    """
+    Place img on a background canvas, by aligning the anchor_im position on the img 
+    with the anchor_bg position on the canvas. Return the canvas with image on it.
+    """
     bg_h, bg_w = bg
     if anchor_im == 'centroid':
         anchor_im = get_centroid(img)
@@ -181,16 +185,27 @@ def compute_scores_cnt(img, cnt, img_ref, cnt_ref, tx_range, ty_range, theta_ran
     return scores
 
 def get_centroid(img):
+    """
+    Return the centroid of the image (treated as binary)
+    """
     m = cv2.moments(img, binaryImage=True)
     centroid = (int(m['m10'] / m['m00']), int(m['m01'] / m['m00']))
     return centroid
+    
 
 def transform_cnt(img, cnt, trfm, anchor_im='centroid', anchor_bg='center'):
+    """
+    Place img on the background canvas, by aligning the anchor_im position on the img 
+    with the anchor_bg position of the background canvas, and then apply trfm 
+    on the image (with rotation centered around centroid of the image). Return the 
+    canvas with transformed image.
+    """
     if cnt is None:
         img = pad_image_cnt(img, cnt, anchor_im, anchor_bg)
     else:
         img, cnt = pad_image_cnt(img, cnt, anchor_im, anchor_bg)
-    A = cv2.getRotationMatrix2D((img.shape[1] / 2, img.shape[0] / 2), np.rad2deg(trfm[2]), 1)
+    im_centroid = get_centroid(img)
+    A = cv2.getRotationMatrix2D(im_centroid, np.rad2deg(trfm[2]), 1)
     A[0, 2] = A[0, 2] + trfm[0]
     A[1, 2] = A[1, 2] + trfm[1]
     img_warp = cv2.warpAffine(img, A, img.shape[0:2])
@@ -205,7 +220,10 @@ def transformA(img, A, anchor_im='centroid', anchor_bg='center'):
     img_warp = cv2.warpAffine(img, A, img.shape[0:2])
     return img_warp
     
-def get_contour_sample(img_orig):
+def get_contour_sample(img_orig, sample_interval=5):
+    """
+    Return contour sample points of a image
+    """
     img = img_orig.copy()
     img[img > 10] = 255
     element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (31, 31))
@@ -229,7 +247,7 @@ def get_contour_sample(img_orig):
     cnts, hier = cv2.findContours(mask.copy(), cv2.cv.CV_RETR_EXTERNAL, 
                                   cv2.cv.CV_CHAIN_APPROX_NONE)
     img_contour_pts = np.squeeze(np.vstack(cnts))
-    img_contour_sample = img_contour_pts[range(0, img_contour_pts.shape[0], 5), :]
+    img_contour_sample = img_contour_pts[range(0, img_contour_pts.shape[0], sample_interval), :]
     img_contour_sample = img_contour_sample - np.matlib.repmat((300,300),
                                                                img_contour_sample.shape[0], 1)
 #    draw_contours(img_contour_sample, (800,800), show=True)

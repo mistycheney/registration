@@ -69,47 +69,13 @@ class ScoreReader:
         HL = np.linalg.cholesky(H)
         return H, HL
         
+    #    x = scipy.sparse.linalg.spsolve(A, b)
 
 if __name__ == '__main__':
     import sys
 #    sp = ScoreReader('scores_allen_%d'%3)
 #    sp.plot('xt')
 #    sys.exit(0)
-
-    from registration import aligner
-
-    alnr = aligner.Aligner('4', 40)
-    alnr.prepare_allen()
-    alnr.prepare_subject()
-    
-    alnr.initial_shift()
-
-    alnr.optimize_atlas()
-    alnr.optimize_neighbor()
-
-    A = scipy.sparse.lil_matrix((3 * (2 * alnr.num_subject - 1), 3 * alnr.num_subject))
-    b = np.zeros((3 * (2 * alnr.num_subject - 1), 1))
-    for i in range(0, alnr.num_subject):
-        GL = alnr.HSA[i]
-        A[3 * i:3 * (i + 1), 3 * i:3 * (i + 1)] = GL
-        b[3 * i:3 * (i + 1)] = np.dot(GL, np.atleast_2d(alnr.dA[i] - alnr.dSA[i]).T)
-        
-        if i > 0:
-            HL = alnr.HSS[i]
-            A[3 * alnr.num_subject + 3 * (i - 1): 3 * alnr.num_subject + 3 * i,
-               3 * (i - 1):3 * i] = -HL
-            A[3 * alnr.num_subject + 3 * (i - 1): 3 * alnr.num_subject + 3 * i,
-               3 * i:3 * (i + 1)] = HL
-            b[3 * alnr.num_subject + 3 * (i - 1): 3 * alnr.num_subject + 3 * i ,
-               :] = np.dot(HL, np.atleast_2d(alnr.dSS).T)
-        
-#    print A.todense()
-#    np.dot(R, R.T.conj())
-
-#    A = scipy.sparse.coo_matrix((V,(I,J)),shape=(4,4))
-#    A = A.tocsr()
-    x = np.linalg.lstsq(A.todense(), b)
-#    x = scipy.sparse.linalg.spsolve(A, b)
 
 
     
