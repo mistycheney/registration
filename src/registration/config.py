@@ -18,6 +18,7 @@ PICKLE_FOLDER = PROJ_FOLDER + 'pickle/'
 TMP_FOLDER = PROJ_FOLDER + 'tmp/'
 
 ZOOM = 5
+SUBJ_TO_ATLAS_SCALING = 29.248 / 15.2
 
 TX_RANGE =  np.arange(-100, 100, 10)
 TY_RANGE = np.arange(-100, 100, 10)

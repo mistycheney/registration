@@ -207,7 +207,9 @@ if __name__ == '__main__':
 
 #    id_code = {'p56_coronal':100048576}
     
-    specimen_info = retrieve_specimens(5756)
+#    specimen_info = retrieve_specimens(5756)
+
+    dataset_info = query_dataset(100048576)
     
 #    dataset_id = id_code['p56_coronal']
 #    p56coronal_info = util.conditional_load('dataset_' + str(dataset_id), \

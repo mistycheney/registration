@@ -8,6 +8,7 @@ import numpy as np
 import cv2
 from registration import contour
 from registration import scoring
+from registration import util
 
 class StackViewer:
     def __init__(self, name, im_stack, i=0):
@@ -123,10 +124,10 @@ class TransformViewer():
                 elif chr(key)=='[':
                     self.theta = self.theta + np.pi/180
                 elif chr(key)=='=': # next
-                    self.id = self.id + 1
+                    self.id = min(self.id + 1, self.alnr.num_subject-1)
                     self.load()
                 elif chr(key)=='-': # previous
-                    self.id = self.id - 1
+                    self.id = max(self.id - 1, 0) 
                     self.load()
                 elif chr(key)=='x': # switch modes
                     self.mode = 'allen' if self.mode=='neighbor' else 'neighbor'
@@ -136,18 +137,35 @@ class TransformViewer():
                     self.showImg = not self.showImg
                 elif chr(key)=='q':
                     break
+                elif chr(key)=='h':
+                    util.D_histogram(self.D)
                 else:
                     print 'no effect'
                     continue
+                
                 trfm = (self.x, self.y, self.theta)
-                s,D = contour.compute_score_cnt(self.mov, self.cnt_mov,
+                s0, self.D = contour.compute_score_cnt(self.mov, self.cnt_mov,
                                                 self.ref, self.cnt_ref,
                                                 'centroid', 'centroid', trfm,
                                                 show=True, showImg=self.showImg,
-                                                outputD=True, title=self.name)
+                                                outputD=True, title=self.name,
+                                                variant=0);
+                s1, _ = contour.compute_score_cnt(self.mov, self.cnt_mov,
+                                                self.ref, self.cnt_ref,
+                                                'centroid', 'centroid', trfm,
+                                                show=True, showImg=self.showImg,
+                                                outputD=True, title=self.name,
+                                                variant=1);
+                s2, _ = contour.compute_score_cnt(self.mov, self.cnt_mov,
+                                                self.ref, self.cnt_ref,
+                                                'centroid', 'centroid', trfm,
+                                                show=True, showImg=self.showImg,
+                                                outputD=True, title=self.name,
+                                                variant=2);
+                        
                 print 'id', self.id
                 print 'pose', self.x, self.y, self.theta
-                print 'score', s
+                print 'score', s0, s1, s2
                 print ''
         cv2.destroyAllWindows()
     
@@ -162,15 +180,27 @@ class TransformViewer():
             self.ref = self.alnr.allen_stack[self.alnr.allen_match_id_stack_best[self.id]]
             self.cnt_ref = self.alnr.allen_cnt_stack[self.alnr.allen_match_id_stack_best[self.id]]
                 
-        
 if __name__ == '__main__':
     from registration import aligner
-    alnr = aligner.Aligner('4')
+    alnr = aligner.Aligner('4',40)
     alnr.prepare_allen()
     alnr.prepare_subject()
     alnr.initial_shift()
+    
+#def OneProcess(object):
     tv = TransformViewer(alnr, 'allen', id=2)
     tv.show()
+    
+#processes = []
+#import multiprocessing
+#for n in range(2):
+#    process = multiprocessing.Process(target=OneProcess)
+#    process.start()
+#    processes.append(process)
+#    
+#for process in processes: # then kill them all off
+#    process.terminate()
+#    cv2.destroyAllWindows()
     
 #    alnr.prepare_allen_whole()
 #    viewer = StackViewer('allen', alnr.allen_stack, i=1)

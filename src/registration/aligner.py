@@ -18,7 +18,7 @@ import time
 class Aligner:
     def __init__(self, subject_id, num_subject):
         self.subject_id = subject_id
-        self.scaling = 29.248 / 16.752
+        self.scaling = config.SUBJ_TO_ATLAS_SCALING
         self.num_subject = num_subject
         self.subject_stack = [None] * self.num_subject
         self.subject_cnt_stack = [None] * self.num_subject
@@ -43,10 +43,15 @@ class Aligner:
         from registration import allen
         info = allen.query_dataset(100048576)
         
+        try:
+            self.allen_cnt_stack = pickle.load(open("allen_cnt_stack.p","rb"))
+        except:
+            pass
+        
         all_warp_name = os.listdir(config.ALLEN_FOLDER + '100048576_warp/')
         for im_id, im_info in info['section_images'].iteritems():
             if im_info['filename'] in all_warp_name:
-                img = cv2.imread(config.ALLEN_FOLDER + '100048576_warp/' + im_info['filename'], 0)
+                img = cv2.imread(config.ALLEN_FOLDER + '100048576_warp/' + im_info['filename'], 0) 
             else:
                 img = cv2.imread(config.ALLEN_FOLDER + '100048576/' + im_info['filename'], 0)
                 img_clean, _ = clean(img, white_bg=False)
@@ -59,10 +64,13 @@ class Aligner:
             
             xc,yc = get_centroid(img)
             self.dA[im_id] = np.array([xc, yc, 0])
-            
-            img_contour_sample = get_contour_sample(img)
+
             self.allen_stack[im_id] = img
-            self.allen_cnt_stack[im_id] = img_contour_sample
+            if im_id not in self.allen_cnt_stack: 
+                self.allen_cnt_stack[im_id] = get_contour_sample(img)
+
+#        pickle.dump(self.allen_cnt_stack, open("allen_cnt_stack.p","wb"))
+        
         sys.stderr.write('%d seconds\n' % (time.time() - begin))
         
     def prepare_allen_whole(self):
@@ -95,7 +103,8 @@ class Aligner:
         h, w = tuple(new_size.astype(np.int))
         img = cv2.resize(img, (w, h))
         self.subject_stack[i] = img
-        self.subject_cnt_stack[i] = get_contour_sample(img)        
+        if self.subject_cnt_stack[i] is None:
+            self.subject_cnt_stack[i] = get_contour_sample(img)    
 
 #    def timeit(func):
 #        def wrapper(*arg,**kw):
@@ -108,7 +117,11 @@ class Aligner:
 #    @timeit
     def prepare_subject(self):
         sys.stderr.write ('prepare_subject...'),
-        begin = time.time()    
+        begin = time.time()
+        try:
+            self.subject_cnt_stack = pickle.load(open("subject_cnt_stack.p","rb"))
+        except:
+            pass
         for i in range(self.num_subject):
             img = cv2.imread(config.SECTION_FOLDER + '4/4_%d.tif' % i, 0)
             self.prepare_subject_each_img(i, img)
@@ -123,26 +136,27 @@ class Aligner:
             min_score = 9999
             subject_interval = 90 
             allen_interval = 100
-            z_max = 13200
-            z_step = 50
+            z0_max = 13100
+            z0_step = 50
             
-            z_min = (self.num_subject + 5) * subject_interval
-            for z0 in range(z_max, z_min, -z_step):  # 12200 should be the best
+            z0_min = (self.num_subject + 5) * subject_interval
+            for z0 in range(z0_max, z0_min, -z0_step):  # 12200 should be the best
                 total_score = 0
             
                 allen_match_id_stack = [None] * self.num_subject
                 for i in range(self.num_subject):
                     img = self.subject_stack[i]
                 
-                    img_z = z0 - 90 * i
+                    img_z = z0 - subject_interval * i
                     allen_match_ind = np.round(img_z / allen_interval).astype(np.int)
+#                    print i, z0, allen_match_ind
                     allen_match_id, allen_match_img = sorted(self.allen_stack.items())[allen_match_ind]
                     allen_match_id_stack[i] = allen_match_id
                     
             #            allen_score = compute_score(img, allen_match_img,'center','center',0, 0, 0)
                     allen_score = compute_score_cnt(img, self.subject_cnt_stack[i],
                                                     allen_match_img, self.allen_cnt_stack[allen_match_id],
-                                                    'center', 'center', (0,0,0))
+                                                    'centroid', 'centroid', (0,0,0))
                     total_score += allen_score
                     
                 if total_score < min_score:

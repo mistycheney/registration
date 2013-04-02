@@ -132,15 +132,31 @@ def pad_image_cnt(img, cnt=None, anchor_im='centroid', anchor_bg='center', bg=(8
 
 import time
 
-def shape_score_cnt(cnt1_t, cnt2_t, outputD=False, title='shape_score_cnt'):
+def shape_score_cnt(cnt1_t, cnt2_t, outputD=False, title='shape_score_cnt', 
+                    variant=0):
     D = scipy.spatial.distance.cdist(cnt1_t, cnt2_t, 'euclidean')
-    k = 50
-    d1 = np.sort(D.min(0))
-    d2 = np.sort(D.min(1))
-    hABk = d1[-k]
-    hBAk = d2[-k]
-    HAB = max(hABk, hBAk)
-    score = HAB
+    if variant == 0:
+        k = 50
+        d1 = np.sort(D.min(0))
+        d2 = np.sort(D.min(1))
+        hABk = d1[-k]
+        hBAk = d2[-k]
+        HAB = max(hABk, hBAk)
+        score = HAB
+    elif variant == 1:
+        d1 = np.sort(D.min(0))
+        d2 = np.sort(D.min(1))
+        hABk = d1[-int(len(d1)/10)]
+        hBAk = d2[-int(len(d1)/10)]
+        HAB = max(hABk, hBAk)
+        score = HAB
+    elif variant == 2:
+        d1 = np.sort(D.min(0))
+        d2 = np.sort(D.min(1))
+        hABk = np.mean(d1[:int(len(d1)*0.9)])
+        hBAk = np.mean(d2[:int(len(d2)*0.9)])
+        HAB = max(hABk, hBAk)
+        score = HAB
     if outputD:
         return score, D
     else:
@@ -148,7 +164,12 @@ def shape_score_cnt(cnt1_t, cnt2_t, outputD=False, title='shape_score_cnt'):
 
 def compute_score_cnt(img, cnt, img_ref, cnt_ref, 
                       anchor_im='centroid', anchor_ref='centroid', trfm=(0,0,0), 
-                      show=False, showImg=False, outputD=False, title='compute_score_cnt'):
+                      show=False, showImg=False, outputD=False, title='compute_score_cnt',
+                      variant=0):
+    """
+    Align the centroids of both images and apply transform around the centroid of the first image, 
+    then compute score. 
+    """
     img, cnt = pad_image_cnt(img, cnt, anchor_im)
     img_ref, cnt_ref = pad_image_cnt(img_ref, cnt_ref, anchor_ref)
     img_warp, cnt_t = transform_cnt(img, cnt, trfm, 'center')
@@ -165,10 +186,10 @@ def compute_score_cnt(img, cnt, img_ref, cnt_ref,
         cv2.imshow(title, vis)
 #        cv2.waitKey()
     if outputD:
-        score, D = shape_score_cnt(cnt_t, cnt_ref, outputD, title)
+        score, D = shape_score_cnt(cnt_t, cnt_ref, outputD, title,variant=variant)
         return score, D
     else:
-        score = shape_score_cnt(cnt_t, cnt_ref, outputD, title)
+        score = shape_score_cnt(cnt_t, cnt_ref, outputD, title,variant=variant)
         return score
 
 def compute_scores_cnt(img, cnt, img_ref, cnt_ref, tx_range, ty_range, theta_range):

@@ -143,12 +143,34 @@ def conditional_load(filename, func, args, regenerate=False, append_obj=None):
             pickle_save((obj, append_obj), filename)
             return obj, append_obj
 
-def histogram(s):
+def histogram(s, windowId):
     import matplotlib.pyplot as plt 
     hist, bins = np.histogram(s)
     width = 0.7*(bins[1]-bins[0])
     center = (bins[:-1]+bins[1:])/2
+    plt.figure(windowId)
     plt.bar(center, hist, align = 'center', width = width)
+    plt.show()
+    
+    
+def D_histogram(D):
+    import matplotlib.pyplot as plt
+    
+    d0 = D.min(0) 
+    hist, bins = np.histogram(d0)
+    width = 0.7*(bins[1]-bins[0])
+    center = (bins[:-1]+bins[1:])/2
+    fig1 = plt.figure()
+    ax1 = fig1.add_subplot(121)
+    ax1.bar(center, hist, align = 'center', width = width)
+    
+    d1 = D.min(1) 
+    hist, bins = np.histogram(d1)
+    width = 0.7*(bins[1]-bins[0])
+    center = (bins[:-1]+bins[1:])/2
+    ax2 = fig1.add_subplot(122)
+    ax2.bar(center, hist, align = 'center', width = width)
+    
     plt.show()
 
 
