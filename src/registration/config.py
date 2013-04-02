@@ -5,6 +5,9 @@ import numpy as np
 if os.environ['HOME'] == '/Users/yuncong':
     DATA_FOLDER = '/Users/yuncong/Documents/brain images/'
     PROJ_FOLDER = '/Users/yuncong/Documents/workspace/Registration/'
+elif os.environ['HOME'] == 'C:/Users/velu':
+    DATA_FOLDER = 'C:/Users/velu/Desktop/brain images/'
+    PROJ_FOLDER = 'C:/Users/velu/Desktop/registration/'
 else:
     DATA_FOLDER = '/oasis/scratch/csd181/yuncong/'
     PROJ_FOLDER = '/oasis/scratch/csd181/yuncong/registration/'
