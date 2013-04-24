@@ -175,8 +175,8 @@ def compute_score_cnt(img, cnt, img_ref, cnt_ref,
     img_warp, cnt_t = transform_cnt(img, cnt, trfm, 'center')
     
     if show:
-        vis1 = draw_contours(cnt_t, (800, 800), show=False, color=(0,255,0))
-        vis2 = draw_contours(cnt_ref, (800, 800), show=False, color=(0,0,255))
+        vis1 = draw_contours(cnt_t, (800, 800), show=False, color=(0,0,255))
+        vis2 = draw_contours(cnt_ref, (800, 800), show=False, color=(0,255,0))
         vis = cv2.addWeighted(vis1, 0.5, vis2, 0.5, 0)
         if showImg:
             img_warp_color = cv2.cvtColor(img_warp, cv2.cv.CV_GRAY2RGB)

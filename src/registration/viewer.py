@@ -92,6 +92,7 @@ class StackGlobalViewer(StackViewer):
             dg_adjusted = alnr.dGlobal[j].T - np.array([400,400,0])
             self.im_stack[j] = contour.transform_cnt(im, None, np.squeeze(dg_adjusted),
                                 anchor_im='centroid', anchor_bg='center')
+            
 
 class TransformViewer():
     def __init__(self, alnr, mode, id=0, name='TransformViewer'):

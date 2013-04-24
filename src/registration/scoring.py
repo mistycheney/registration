@@ -85,7 +85,7 @@ class ScoreReader:
 if __name__ == '__main__':
     import sys
     sp = ScoreReader('scores_allen_%d'%24)
-#    sp.plot('xt')
+    sp.plot('yt')
     print sp.compute_hessian()
 #    sys.exit(0)
 

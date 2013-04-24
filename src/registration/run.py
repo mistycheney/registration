@@ -20,8 +20,8 @@ if __name__ == '__main__':
     alnr.optimize_atlas()
     alnr.optimize_neighbor()
     
-#    alnr.num_subject = 10
-    alnr.global_optimzation()
+alnr.num_subject = 20
+alnr.global_optimzation()
 
 #sorted_allen = [alnr.allen_stack[i] for i in sorted(alnr.allen_stack.iterkeys())]
 #v = viewer.StackViewer('allen', sorted_allen, i=0)
@@ -33,8 +33,8 @@ if __name__ == '__main__':
 #v = viewer.StackNeighborViewer('neighbor match', alnr, i=1)
 #v.show()
 #    
-#v = viewer.StackGlobalViewer('global match', alnr, i=0)
-#v.show()
-    
-#    viewer = plot.StackCentroidViewer('subject 4', alnr.subject_stack, i=1)
-#    viewer.show()
+v = viewer.StackGlobalViewer('global match', alnr, i=0)
+v.show()
+#    
+v = viewer.StackCentroidViewer('subject 4', alnr.subject_stack, i=1)
+v.show()

@@ -2,10 +2,10 @@ import cv2
 import os
 import numpy as np
 
-if os.environ['HOME'] == '/Users/yuncong':
+if 'HOME' in os.environ and os.environ['HOME'] == '/Users/yuncong':
     DATA_FOLDER = '/Users/yuncong/Documents/brain images/'
     PROJ_FOLDER = '/Users/yuncong/Documents/workspace/Registration/'
-elif os.environ['HOMEPATH'] == '\\Users\\velu':
+elif 'HOMEPATH' in os.environ and os.environ['HOMEPATH'] == '\\Users\\velu':
     DATA_FOLDER = 'C:/Users/velu/Desktop/brain images/'
     PROJ_FOLDER = 'C:/Users/velu/Desktop/registration/'
 else:
