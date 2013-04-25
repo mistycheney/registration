@@ -1,5 +1,6 @@
 scores/
 sphinx/
+pickle/
 
 *.pyc
 *.png
