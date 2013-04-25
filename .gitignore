@@ -4,3 +4,5 @@ sphinx/
 *.pyc
 *.png
 *.tif
+
+*.zip
