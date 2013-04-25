@@ -1,7 +1,5 @@
 '''
-Created on Mar 22, 2013
-
-@author: yuncong
+ScoreReader Class, with function for computing Hessians 
 '''
 
 import cPickle as pickle
@@ -13,7 +11,13 @@ import scipy.sparse.linalg
 import sys
 
 class ScoreReader:
-    def __init__(self, scores):    
+    def __init__(self, scores):
+        '''
+        Initiate a ScoreReader, load a score surface.
+        "scores" specifies the name of the score surface, 
+            scores_allen_3 means the atlas alignment score for section 3 
+            scores_neighbor_5 means the neighbor alignment score for section 5 
+        '''
         self.tx_range = config.TX_RANGE
         self.ty_range = config.TY_RANGE
         self.theta_range = config.THETA_RANGE
@@ -31,6 +35,9 @@ class ScoreReader:
                              self.theta_range[self.theta_opt_ind]])
     
     def plot(self, dims):
+        '''
+        Plot the score surface on dimensions dims (xy,xt,yt)
+        '''
         if dims == 'xy':
             util.plot_surface(self.scores[:, :, self.theta_opt_ind], self.tx_range, self.ty_range,
                               x_label='tx', y_label='ty', z_label='score')
@@ -42,6 +49,9 @@ class ScoreReader:
                               x_label='ty', y_label='theta', z_label='score')
             
     def compute_hessian(self, h=1):
+        '''
+        Compute the numerical hessian at the optimum using step h
+        '''
         x = self.tx_opt_ind
         y = self.ty_opt_ind
         t = self.theta_opt_ind

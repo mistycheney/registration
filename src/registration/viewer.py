@@ -1,7 +1,5 @@
 '''
-Created on Mar 21, 2013
-
-@author: yuncong
+Various viewer classes.
 '''
 
 import numpy as np
@@ -139,7 +137,7 @@ class TransformViewer():
                 elif chr(key)=='q':
                     break
                 elif chr(key)=='h':
-                    util.D_histogram(self.D)
+                    util.histogram2(self.D.min(0), self.D.min(1))
                 else:
                     print 'no effect'
                     continue
@@ -188,21 +186,9 @@ if __name__ == '__main__':
     alnr.prepare_subject()
     alnr.initial_shift()
     
-#def OneProcess(object):
     tv = TransformViewer(alnr, 'allen', id=2)
     tv.show()
-    
-#processes = []
-#import multiprocessing
-#for n in range(2):
-#    process = multiprocessing.Process(target=OneProcess)
-#    process.start()
-#    processes.append(process)
-#    
-#for process in processes: # then kill them all off
-#    process.terminate()
-#    cv2.destroyAllWindows()
-    
+        
 #    alnr.prepare_allen_whole()
 #    viewer = StackViewer('allen', alnr.allen_stack, i=1)
 #    viewer.show()

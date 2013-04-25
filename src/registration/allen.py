@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+'''
+Functions for downloading and querying the Allen atlas images
+'''
+
 import simplejson
 import urllib2
 import urllib

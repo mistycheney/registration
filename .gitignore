@@ -1,4 +1,5 @@
 scores/
+sphinx/
 
 *.pyc
 *.png

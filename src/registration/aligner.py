@@ -1,3 +1,8 @@
+'''
+Aligner class.
+Main class for registration, provides method for managing the optimization workflow.
+'''
+
 # from subprocess import call
 import os, sys
 import cPickle as pickle
@@ -12,8 +17,6 @@ from matplotlib import mlab
 from registration.contour import * 
 from registration import scoring
 import time
-
-# from facetemplatematch.filters.gaborfilter import GaborFilter
 
 class Aligner:
     def __init__(self, subject_id, num_subject):

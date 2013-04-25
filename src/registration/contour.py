@@ -1,7 +1,5 @@
 '''
-Created on Mar 21, 2013
-
-@author: yuncong
+Functions for extracting contours and applying image transformations
 '''
 import os, sys
 import cPickle as pickle
@@ -41,8 +39,6 @@ def clean(img, bb=False, white_bg=True):
     '''
     clean a slide image, so that only the interesting parts are kept
     '''
-#        from scipy import ndimage
-    
 #    cv2.imshow('',img)
 #    cv2.waitKey()
     img_smooth = cv2.medianBlur(img, 5)

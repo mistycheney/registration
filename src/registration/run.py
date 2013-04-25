@@ -26,15 +26,15 @@ alnr.global_optimzation()
 #sorted_allen = [alnr.allen_stack[i] for i in sorted(alnr.allen_stack.iterkeys())]
 #v = viewer.StackViewer('allen', sorted_allen, i=0)
 #v.show()
-#    
+    
 #v = viewer.StackAtlasMatchViewer('allen match', alnr, i=0, overlay=True)
 #v.show()
-#
+
 #v = viewer.StackNeighborViewer('neighbor match', alnr, i=1)
 #v.show()
-#    
+    
 v = viewer.StackGlobalViewer('global match', alnr, i=0)
 v.show()
-#    
+
 v = viewer.StackCentroidViewer('subject 4', alnr.subject_stack, i=1)
 v.show()

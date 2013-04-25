@@ -1,14 +1,17 @@
+'''
+Functions for segmenting multi-section slides
+'''
+
 from subprocess import call
 import os, sys
-from pylab import *
-from registration.config import * 
+from registration import config
+import numpy as np 
 import cv2
 import collections
 import networkx
 
-
 def ndpi_split(stack_id, slide_num, stain='nissl'):
-    os.chdir(SLIDE_FOLDER)
+    os.chdir(config.SLIDE_FOLDER)
     if stain == 'dab':
         ndpi_prefix = 'H0{0}_DAB_{1}_'.format(str(stack_id), str(slide_num))
     else:
@@ -33,11 +36,12 @@ def ndpi_split(stack_id, slide_num, stain='nissl'):
 
 
 def split_slide(stack_id, slide_num, starting_section_id):
-    '''Segment a tif slide containing multiple section images.
+    '''
+    Segment a tif slide containing multiple section images.
     '''
 #    imname = SLIDE_FOLDER + '{0}_{1}_x0.3125_z0.tif'.format(str(stack_id), str(slide_num))
     imname = '/Users/yuncong/Documents/brain images/I.tif'
-    img = imread(imname)
+    img = cv2.imread(imname)
     h, w = img.shape[:2]
     img = cv2.cvtColor(img, cv2.cv.CV_RGB2GRAY)
             
@@ -53,14 +57,14 @@ def split_slide(stack_id, slide_num, starting_section_id):
         h, w = tuple(thresh_image.shape[:2])
         contours, hierarchy = cv2.findContours(thresh_image.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         all_bbox = [cv2.boundingRect(i) for i in contours]
-        all_area = array([cv2.contourArea(c) for c in contours])
-        all_aspect_ratio = array([float(b[2]) / b[3] for b in all_bbox])
-        large = find((all_area > MIN_AREA) & (all_area < h * w * 0.8) & (all_aspect_ratio < 10))
+        all_area = np.array([cv2.contourArea(c) for c in contours])
+        all_aspect_ratio = np.array([float(b[2]) / b[3] for b in all_bbox])
+        large = np.matlib.find((all_area > config.MIN_AREA) & (all_area < h * w * 0.8) & (all_aspect_ratio < 10))
         large_contours = [contours[i] for i in large]
             
         print len(large_contours), 'large_contours'
     
-        mask = zeros((h, w, 1), uint8)
+        mask = np.zeros((h, w, 1), np.uint8)
         cv2.drawContours(mask, large_contours, -1, 255, -1)
 #        cv2.imshow('', mask[:, :, 0])
 #        cv2.waitKey()
@@ -78,11 +82,11 @@ def split_slide(stack_id, slide_num, starting_section_id):
         img_smooth = cv2.GaussianBlur(img_smooth, (3, 3), 3)
         
         h, w = img.shape
-        markers = zeros_like(img).astype(int16)
+        markers = np.zeros_like(img).astype(np.int16)
         markers[5, 5] = 1
         
         flooded = img_smooth.copy()
-        mask = zeros((h + 2, w + 2), uint8)
+        mask = np.zeros((h + 2, w + 2), np.uint8)
         connectivity = 8
     #    flags = connectivity | cv2.FLOODFILL_FIXED_RANGE | cv2.FLOODFILL_MASK_ONLY
         flags = connectivity | cv2.FLOODFILL_FIXED_RANGE
@@ -97,7 +101,7 @@ def split_slide(stack_id, slide_num, starting_section_id):
         large_contours, mask = find_large_contours(mask)
     
         if white_bg:
-            white = 255 * ones((h, w), uint8)
+            white = 255 * np.ones((h, w), np.uint8)
             img_clean = (white - mask) + (img & mask)
         else:
             img_clean = img & mask
@@ -109,12 +113,12 @@ def split_slide(stack_id, slide_num, starting_section_id):
         '''
         A utility function that returns a white-background image showing the contour given by cnts.
         '''
-        vis = zeros((h, w, 1), uint8)
+        vis = np.zeros((h, w, 1), np.uint8)
         if fill:
             cv2.drawContours(vis, cnts, -1, 255, -1)
         else:
             cv2.drawContours(vis, cnts, -1, 255, 2)
-        if show and DEBUG:
+        if show and config.DEBUG:
             cv2.imshow(title, vis[:, :, 0])
             cv2.waitKey()
         return vis[:, :, 0]
@@ -138,14 +142,14 @@ def split_slide(stack_id, slide_num, starting_section_id):
             x_max = max([rect[0] + rect[2] for rect in rects])
             y_min = min([rect[1] for rect in rects])
             y_max = max([rect[1] + rect[3] for rect in rects])            
-            v = array([(x_min, y_max), (x_min, y_min), (x_max, y_min), (x_max, y_max)])
-            big_bbox = int32(v.reshape(4, 1, 2))
+            v = np.array([(x_min, y_max), (x_min, y_min), (x_max, y_min), (x_max, y_max)])
+            big_bbox = np.int32(v.reshape(4, 1, 2))
             if 'Area' in mode:
                 return cv2.contourArea(big_bbox)
             else:
                 return big_bbox
         elif mode.startswith('hull'):
-            hull = cv2.convexHull(vstack(contours))
+            hull = cv2.convexHull(np.vstack(contours))
             if 'Area' in mode:
                 return hull
             else:
@@ -160,7 +164,7 @@ def split_slide(stack_id, slide_num, starting_section_id):
         
         '''
         
-        area = float32([(b[3][0][0] - b[1][0][0]) * (b[3][0][1] - b[1][0][1]) for b in bbox])
+        area = np.float32([(b[3][0][0] - b[1][0][0]) * (b[3][0][1] - b[1][0][1]) for b in bbox])
         order, area = zip(*sorted(list(enumerate(area)), key=lambda x:x[1]))
         contour_groups = [contour_groups[i] for i in order] 
         
@@ -168,9 +172,9 @@ def split_slide(stack_id, slide_num, starting_section_id):
                 
         ratio = [None] * (len(area) - 1)
         for i in range(len(area) - 1):
-            ratio[i] = round(area[i + 1] / median(area))
+            ratio[i] = round(area[i + 1] /np. median(area))
         print ratio
-        to_split_begin_possible = find(array(ratio) > 1) + 1
+        to_split_begin_possible = np.matlib.find(np.array(ratio) > 1) + 1
         
         if len(to_split_begin_possible) == 0:
             return contour_groups
@@ -192,7 +196,8 @@ def split_slide(stack_id, slide_num, starting_section_id):
                 print 'contour_groups', len(contour_groups)
                 continue
             orig_mask = show_contours(group, fill=True, show=True)
-            element = cv2.getStructuringElement(STRUCTURE_ELEMENT, (MORPH_ELEMENT_SIZE, MORPH_ELEMENT_SIZE))
+            element = cv2.getStructuringElement(config.STRUCTURE_ELEMENT, (config.MORPH_ELEMENT_SIZE,
+                                                                           config.MORPH_ELEMENT_SIZE))
             eroded_mask = orig_mask
             it = 0
             while 1:
@@ -203,8 +208,8 @@ def split_slide(stack_id, slide_num, starting_section_id):
 #                cv2.imshow('',eroded_mask)
 #                cv2.waitKey()
                 indiv_bbox = [cv2.boundingRect(i) for i in indiv_contours]
-                indiv_bbox_area = array([b[2] * b[3] for b in indiv_bbox])
-                valid = find(indiv_bbox_area > MIN_AREA)
+                indiv_bbox_area = np.array([b[2] * b[3] for b in indiv_bbox])
+                valid = np.matlib.find(indiv_bbox_area > config.MIN_AREA)
                 if len(valid) == 0:
                     print '!!!!!!!!!!!!!!!!!!!!', it
                     return None
@@ -218,7 +223,7 @@ def split_slide(stack_id, slide_num, starting_section_id):
 #                print 'area_std', area_std
 #                show_contours(indiv_contours, fill=False, show=True)
                 
-                if (len(indiv_contours) > 1 and area_std < SPLIT_STOP_STD):
+                if (len(indiv_contours) > 1 and area_std < config.SPLIT_STOP_STD):
                     break
     
             print 'indiv_contours', len(indiv_contours)
@@ -232,7 +237,7 @@ def split_slide(stack_id, slide_num, starting_section_id):
             indiv_dilated_contours = []
             for m in dilated_mask_new:
                 indiv_dilated_contour_noisy, hierarchy = cv2.findContours(m.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-                indiv_dilated_contour_big = [c for c in indiv_dilated_contour_noisy if cv2.contourArea(c) > MIN_AREA]
+                indiv_dilated_contour_big = [c for c in indiv_dilated_contour_noisy if cv2.contourArea(c) > config.MIN_AREA]
                 indiv_dilated_contour_biggest = sorted(indiv_dilated_contour_big, key=cv2.contourArea)[-1]                
                 indiv_dilated_contours.append(indiv_dilated_contour_biggest)
 #                cv2.imshow('m', m)
@@ -258,7 +263,7 @@ def split_slide(stack_id, slide_num, starting_section_id):
 #        print 'area', area                                
                                 
         close_pairs = set()
-        distance = array([[inf] * n] * n)   
+        distance = np.array([[np.inf] * n] * n)   
         for i1, b1 in enumerate(contours):
             for i2, b2 in enumerate(contours):
                 distance[i1, i2] = max([cv2.pointPolygonTest(b2, tuple(v[0]), True) for v in b1])
@@ -284,7 +289,7 @@ def split_slide(stack_id, slide_num, starting_section_id):
         elif stack_id == 3:
             FAR_THRESH_ADAPT = 60
         else:
-            FAR_THRESH_ADAPT = median(min_dist)
+            FAR_THRESH_ADAPT = np.median(min_dist)
         print 'FAR_THRESH_ADAPT', FAR_THRESH_ADAPT
         
 #        FAR_THRESH_ADAPT = 
@@ -306,7 +311,7 @@ def split_slide(stack_id, slide_num, starting_section_id):
 #        far = [f for f in far if len(f) > 1]
 #        print 'far', len(far), far
         
-        close_matrix = zeros([n, n])
+        close_matrix = np.zeros([n, n])
         for i, j in close_pairs:
             close_matrix[i, j] = 1
         G = networkx.from_numpy_matrix(close_matrix)
@@ -324,7 +329,7 @@ def split_slide(stack_id, slide_num, starting_section_id):
             return set([frozenset([])])
         
         groupings = set()       
-        conflict_matrix = array([[len(set(i) & set(j)) > 0 and i != j for i in overlap_groups] \
+        conflict_matrix = np.array([[len(set(i) & set(j)) > 0 and i != j for i in overlap_groups] \
                               for j in overlap_groups])
         G = networkx.from_numpy_matrix(conflict_matrix)
         for i in range(1000):
@@ -369,7 +374,7 @@ def split_slide(stack_id, slide_num, starting_section_id):
             
             bboxes = [union_contours(group, 'bbox') for group in grouped_contours]
             area0 = [cv2.contourArea(group[0]) if len(group) == 1 else union_contours(group, 'contourArea')[1] for group in grouped_contours]
-            area_std0 = std(area0)
+            area_std0 = np.std(area0)
                     
 #            centers = array([array([b[1][0]+b[3][0]])/2 for b in bboxes])
 #            diff = centers[1:,0] - centers[:-1,0]
@@ -396,12 +401,12 @@ def split_slide(stack_id, slide_num, starting_section_id):
             
             area = [cv2.contourArea(group[0]) if len(group) == 1 else union_contours(group, 'contourArea')[1] for group in grouped_contours]
             print area
-            print std(area)
-            area_std.append(std(area))
+            print np.std(area)
+            area_std.append(np.std(area))
         
         print 'area_std', area_std
         
-        best_idx = argmin(area_std)
+        best_idx = np.argmin(area_std)
         print best_idx
         best_grouping = grouped_contours_list[best_idx]
         best_bbox = bboxes_list[best_idx]
@@ -416,10 +421,10 @@ def split_slide(stack_id, slide_num, starting_section_id):
             
         print 'boxes', len(bboxes)
         idxes = sorted(range(len(bboxes)), key=lambda i: bboxes[i][0][0][0])
-        xs = array([bboxes[i][0][0][0] for i in idxes])
+        xs = np.array([bboxes[i][0][0][0] for i in idxes])
         delta = xs[1:] - xs[:-1]
-        gaps = find(delta > 110)
-        nrow = bincount(gaps[1:] - gaps[:-1]).argmax() if len(gaps) > 1 else 1
+        gaps = np.matlib.find(delta > 110)
+        nrow = np.bincount(gaps[1:] - gaps[:-1]).argmax() if len(gaps) > 1 else 1
         ncol = len(bboxes) / nrow
         print 'nrow, ncol', nrow, ncol
         
@@ -473,8 +478,8 @@ if __name__ == '__main__':
     for slide_num in range(1, nslide + 1):
 #    slide_num = 2
         print 'slide', slide_num
-        if str(stack_id) not in os.listdir(SECTION_FOLDER):
-            os.mkdir(SECTION_FOLDER + str(stack_id))
+        if str(stack_id) not in os.listdir(config.SECTION_FOLDER):
+            os.mkdir(config.SECTION_FOLDER + str(stack_id))
         n = split_slide(stack_id, slide_num, section_id)
         section_id += n
 
