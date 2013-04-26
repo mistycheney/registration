@@ -100,6 +100,9 @@ if __name__ == '__main__':
 #    specimen_info = query_atlas_info(id_code['p56_coronal_complete'], 'specimen')
 #    download_atlas(id_code['p56_coronal_complete'], 'specimen')
 
-    specimen_info = query_atlas_info(id_code['p56_sagittal'],'dataset')
-    download_atlas(id_code['p56_sagittal'], 'dataset')
+    specimen_info = query_atlas_info(id_code['p56_coronal'],'dataset')
+    download_atlas(id_code['p56_coronal'], 'dataset')
+
+#    specimen_info = query_atlas_info(id_code['p56_sagittal'],'dataset')
+#    download_atlas(id_code['p56_sagittal'], 'dataset')
     

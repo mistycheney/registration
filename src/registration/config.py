@@ -7,8 +7,8 @@ import os
 import numpy as np
 
 if 'HOME' in os.environ and os.environ['HOME'] == '/Users/yuncong':
-    DATA_FOLDER = '/Users/yuncong/Documents/brain images/'
-    PROJ_FOLDER = '/Users/yuncong/Documents/workspace/Registration/'
+    DATA_FOLDER = '/Users/yuncong/Documents/workspace/registration/data/'
+    PROJ_FOLDER = '/Users/yuncong/Documents/workspace/registration/'
 elif 'HOMEPATH' in os.environ and os.environ['HOMEPATH'] == '\\Users\\velu':
     DATA_FOLDER = 'C:/Users/velu/Desktop/brain images/'
     PROJ_FOLDER = 'C:/Users/velu/Desktop/registration/'
