@@ -43,6 +43,10 @@ https://github.com/mistycheney/registration
  * **scoring.py**:    ScoreReader Class, with function for computing Hessians
  * **util.py**:       Utility functions for plotting, etc.
  * **viewer.py**:     Various viewer classes.
+ * **run.py**:     	  Main function for doing the alignment locally.
+ * **run_map.py**:    Mapper for doing the alignment using hadoop streaming on the cluster.
+ * **segment_map.py**:    Mapper for segmenting multi-section slides using hadoop streaming on the cluster.
+
 * **slide_seg_info.txt**: text file containing information for multi-section slide segmentation, each row specifies the x,y,width,height of the bounding box for a section. This is created manually.
 
 

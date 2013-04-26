@@ -8,3 +8,7 @@
 * **scoring.py**: ScoreReader Class, with function for computing Hessians
 * **util.py**: Utility functions for plotting, etc.
 * **viewer.py**: Various viewer classes.
+
+* **run.py**:     	  Main function for doing the alignment locally.
+* **run_map.py**:    Mapper for doing the alignment using hadoop streaming on the cluster.
+* **segment_map.py**:    Mapper for segmenting multi-section slides using hadoop streaming on the cluster.
