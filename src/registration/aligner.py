@@ -80,8 +80,9 @@ class Aligner:
         sys.stderr.write ('prepare_allen_whole...',)
         begin = time.time()
         from registration import allen
-        info = allen.retrieve_specimens(5756)
+        info = allen.query_atlas_info(5756, 'specimen')
         
+        os.mkdir(config.ALLEN_FOLDER + '5756_warp/')
         all_warp_name = os.listdir(config.ALLEN_FOLDER + '5756_warp/')
         for im_id, im_info in info['section_images'].iteritems():
             if im_info['filename'] in all_warp_name:
@@ -276,7 +277,7 @@ class Aligner:
     
             
 if __name__ == '__main__':
-    alnr = Aligner('4')
+    alnr = Aligner('4', 40)
     alnr.prepare_allen_whole()
     
 

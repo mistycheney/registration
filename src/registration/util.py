@@ -3,23 +3,20 @@ Utility functions for plotting, etc.
 '''
 
 from subprocess import call
-import cPickle
+import cPickle as pickle
 import os, sys
 import numpy as np
-from scipy import ndimage
-#from scipy import signal, ndimage, spatial
 from registration import config
 import cv2
 import matplotlib.pyplot as plt
-
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
 def plot_surface(Z, X, Y, x_label, y_label, z_label):
     '''
     Plot a surface
     '''
-    from mpl_toolkits.mplot3d import Axes3D
-    from matplotlib import cm
-    from matplotlib.ticker import LinearLocator, FormatStrFormatter
     
     fig = plt.figure()
     ax = fig.gca(projection='3d')
@@ -44,9 +41,6 @@ def plot_surface_func(func, X, Y):
     '''
     Plot a surface
     '''
-    from mpl_toolkits.mplot3d import Axes3D
-    from matplotlib import cm
-    from matplotlib.ticker import LinearLocator, FormatStrFormatter
     
     fig = plt.figure()
     ax = fig.gca(projection='3d')
@@ -116,6 +110,15 @@ def histogram2(d0, d1):
     ax2.bar(center, hist, align = 'center', width = width)
     
     plt.show()
+    
+    
+def pickle_load(filename):
+    obj = pickle.load(open(filename, 'rb'))
+    return obj
+
+def pickle_save(obj, filename):
+    pickle.dump(obj, open(filename, 'wb'))
+    print filename, 'saved'
 
 
 if __name__ == '__main__':
