@@ -23,6 +23,7 @@ Github Repo
 -----------
 https://github.com/mistycheney/registration
 
+* **data**:           contains the atlas images and sample subject images
 * **gordon_scripts**: contains bash scripts used on the cluster (for running hadoop streaming)
 * **local_scripts**:  contains bash scripts used in local machine
 * **pickle**:         stores pickle files
