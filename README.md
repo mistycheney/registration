@@ -18,6 +18,7 @@ https://www.dropbox.com/sh/quhklvnr8o5m0qk/p-UiWtPVLq
 Dataset
 --------
 Raw data in ndpi format in `/oasis/projects/nsf/csd183/yuncong`
+
 Decompressed images are stored on Gordon `/oasis/projects/nsf/csd183/yuncong/tif`
 
 Github Repo
