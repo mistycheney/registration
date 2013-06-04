@@ -12,8 +12,8 @@ if 'HOME' in os.environ and os.environ['HOME'] == '/Users/yuncong':
 elif 'HOME' in os.environ and os.environ['HOME'] == '/home/yuncong':
     DATA_FOLDER = '/home/yuncong/Documents/brain_data/'
     PROJ_FOLDER = '/home/yuncong/workspace/registration/'
-else:
-    DATA_FOLDER = '/oasis/scratch/csd181/yuncong/'
+else: #gordon
+    DATA_FOLDER = '/oasis/scratch/csd181/yuncong/brain_data/'
     PROJ_FOLDER = '/oasis/scratch/csd181/yuncong/registration/'
 
 SLIDE_FOLDER = DATA_FOLDER + 'Slide/'
