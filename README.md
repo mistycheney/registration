@@ -57,9 +57,9 @@ https://github.com/mistycheney/registration
 
 Setup/Run Project
 -------------
-git clone registration repo
-git clone data repo
-cd registration
-mkdir scores
-chmod 766 scores
-source gordon_scripts/runAlign.sh 4 dummy_out src/registration/run_map.py
+  git clone registration repo
+  git clone data repo
+  cd registration
+  mkdir scores
+  chmod 766 scores
+  source gordon_scripts/runAlign.sh 4 dummy_out src/registration/run_map.py
