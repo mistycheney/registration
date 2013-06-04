@@ -8,12 +8,12 @@ MAPPER=$3
 
 hdfs -rmr $OUTPUT
 
-PROJ=/oasis/scratch/csd181/yuncong/registration/src/registration/
+PROJ=/oasis/scratch/csd181/yuncong/registration
 rm -f $PROJ/../../scores/*.*
 
 had jar /opt/hadoop/contrib/streaming/hadoop-*streaming*.jar \
-	-libjars /oasis/scratch/csd181/yuncong/segmentation/ProcessImage.jar \
-	-files $PROJ/allen_match_id_stack_best.p -files $PROJ/allen_cnt_stack.p\
+	-libjars $PROJ/java_classes/yuncong/ProcessImage.jar \
+	-files $PROJ/pickle/allen_match_id_stack_best.p -files $PROJ/pickle/allen_cnt_stack.p\
 	-D mapred.map.tasks=100 \
 	-D mapred.reduce.tasks=1 \
 	-D mapred.child.java.opts=-Xmx1800m \
