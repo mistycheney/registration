@@ -57,8 +57,8 @@ https://github.com/mistycheney/registration
 
 Setup/Run Project
 -------------
-    git clone registration repo
-    git clone data repo
+    git clone https://github.com/mistycheney/registration.git
+    git clone https://github.com/mistycheney/brain_data.git
     cd registration
     mkdir scores
     chmod 766 scores
