@@ -21,6 +21,10 @@ Raw data in ndpi format in `/oasis/projects/nsf/csd183/yuncong`
 
 Decompressed images are stored on Gordon `/oasis/projects/nsf/csd183/yuncong/tif`
 
+Code on Gordon
+--------
+`/oasis/projects/nsf/csd181/yuncong`
+
 Github Repo
 -----------
 https://github.com/mistycheney/registration
