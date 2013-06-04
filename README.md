@@ -23,7 +23,7 @@ Decompressed images are stored on Gordon `/oasis/projects/nsf/csd183/yuncong/tif
 
 Code on Gordon
 --------
-`/oasis/projects/nsf/csd181/yuncong`
+`/oasis/scratch/csd181/yuncong`
 
 Github Repo
 -----------
@@ -55,5 +55,11 @@ https://github.com/mistycheney/registration
 
 * **slide_seg_info.txt**: text file containing information for multi-section slide segmentation, each row specifies the x,y,width,height of the bounding box for a section. This is created manually.
 
-
-
+Setup/Run Project
+-------------
+git clone registration repo
+git clone data repo
+cd registration
+mkdir scores
+chmod 766 scores
+source gordon_scripts/runAlign.sh 4 dummy_out src/registration/run_map.py
