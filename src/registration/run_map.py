@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+'''
+The main function for running the program on hadoop server
+@author: yuncong
+'''
+
 import os, sys
 from registration import aligner
 import base64
@@ -21,7 +26,7 @@ def parse_line(line):
     return filename, img
     
 if __name__ == '__main__':
-    alnr = aligner.Aligner('4',40)
+    alnr = aligner.Aligner('4','p56_coronal')
     alnr.prepare_allen()
     alnr.initial_shift()
 
