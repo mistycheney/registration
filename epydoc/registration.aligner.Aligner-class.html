@@ -14,6 +14,9 @@
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="registration-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -31,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            >Mouse Brain Project</th>
+            ><a class="navbar" target="_top" href="https://github.com/mistycheney/registration.git">registration</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -39,7 +42,7 @@
   <tr valign="top">
     <td width="100%">
       <span class="breadcrumbs">
-        Package&nbsp;registration ::
+        <a href="registration-module.html">Package&nbsp;registration</a> ::
         <a href="registration.aligner-module.html">Module&nbsp;aligner</a> ::
         Class&nbsp;Aligner
       </span>
@@ -59,6 +62,8 @@
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Aligner</h1><p class="nomargin-top"><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner">source&nbsp;code</a></span></p>
+<p>Aligner class.</p>
+
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -82,9 +87,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__init__"></a><span class="summary-sig-name">__init__</span>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="registration.aligner.Aligner-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">subject_id</span>,
-        <span class="summary-sig-arg">num_subject</span>)</span></td>
+        <span class="summary-sig-arg">atlas_name</span>)</span><br />
+      Initialize the aligner.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.__init__">source&nbsp;code</a></span>
             
@@ -100,7 +106,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="prepare_allen"></a><span class="summary-sig-name">prepare_allen</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.aligner.Aligner-class.html#prepare_allen" class="summary-sig-name">prepare_allen</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Load atlas images in the aligner.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.prepare_allen">source&nbsp;code</a></span>
             
@@ -116,25 +123,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="prepare_allen_whole"></a><span class="summary-sig-name">prepare_allen_whole</span>(<span class="summary-sig-arg">self</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.prepare_allen_whole">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="prepare_subject_each_img"></a><span class="summary-sig-name">prepare_subject_each_img</span>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="registration.aligner.Aligner-class.html#prepare_subject_each_img" class="summary-sig-name">prepare_subject_each_img</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">i</span>,
-        <span class="summary-sig-arg">img</span>)</span></td>
+        <span class="summary-sig-arg">img</span>)</span><br />
+      Load the subject images into aligner for each image (Map).</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.prepare_subject_each_img">source&nbsp;code</a></span>
             
@@ -150,7 +142,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="prepare_subject"></a><span class="summary-sig-name">prepare_subject</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.aligner.Aligner-class.html#prepare_subject" class="summary-sig-name">prepare_subject</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Load the subject images into aligner.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.prepare_subject">source&nbsp;code</a></span>
             
@@ -166,7 +159,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="initial_shift"></a><span class="summary-sig-name">initial_shift</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.aligner.Aligner-class.html#initial_shift" class="summary-sig-name">initial_shift</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Initialize a global shift.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.initial_shift">source&nbsp;code</a></span>
             
@@ -199,10 +193,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="optimize_atlas_map"></a><span class="summary-sig-name">optimize_atlas_map</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">i</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.aligner.Aligner-class.html#optimize_atlas_each" class="summary-sig-name">optimize_atlas_each</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">i</span>)</span><br />
+      Optimize each atlas alignment score.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.optimize_atlas_map">source&nbsp;code</a></span>
+            <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.optimize_atlas_each">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -216,7 +211,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="optimize_atlas"></a><span class="summary-sig-name">optimize_atlas</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.aligner.Aligner-class.html#optimize_atlas" class="summary-sig-name">optimize_atlas</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Optimizes atlas alignment score.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.optimize_atlas">source&nbsp;code</a></span>
             
@@ -232,8 +228,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="optimize_neighbor_map"></a><span class="summary-sig-name">optimize_neighbor_map</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">i</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.aligner.Aligner-class.html#optimize_neighbor_map" class="summary-sig-name">optimize_neighbor_map</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">i</span>)</span><br />
+      Optimize each neighbor alignment score (Map).</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.optimize_neighbor_map">source&nbsp;code</a></span>
             
@@ -249,8 +246,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="optimize_neighbor_each"></a><span class="summary-sig-name">optimize_neighbor_each</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">i</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.aligner.Aligner-class.html#optimize_neighbor_each" class="summary-sig-name">optimize_neighbor_each</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">i</span>)</span><br />
+      Optimize each neighbor alignment score (Map).</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.optimize_neighbor_each">source&nbsp;code</a></span>
             
@@ -266,7 +264,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="optimize_neighbor"></a><span class="summary-sig-name">optimize_neighbor</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.aligner.Aligner-class.html#optimize_neighbor" class="summary-sig-name">optimize_neighbor</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Optimizes neighbor alignment score.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.optimize_neighbor">source&nbsp;code</a></span>
             
@@ -282,7 +281,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="global_optimzation"></a><span class="summary-sig-name">global_optimzation</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.aligner.Aligner-class.html#global_optimzation" class="summary-sig-name">global_optimzation</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Global optimization.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.global_optimzation">source&nbsp;code</a></span>
             
@@ -293,10 +293,278 @@
     </td>
   </tr>
 </table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">subject_id</span>,
+        <span class="sig-arg">atlas_name</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Initialize the aligner.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>subject_id</code></strong> - The id of subject stack</li>
+        <li><strong class="pname"><code>atlas_name</code></strong> - the name of atlas, for example, 'p50_coronal'. Refer to 
+          config.atlas_menu.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="prepare_allen"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">prepare_allen</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.prepare_allen">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Load atlas images in the aligner. Prepares self.allen_cnt_stack and 
+  self.allen_stack. Prepares self.dA.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="prepare_subject_each_img"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">prepare_subject_each_img</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">i</span>,
+        <span class="sig-arg">img</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.prepare_subject_each_img">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Load the subject images into aligner for each image (Map).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>i</code></strong> - section index</li>
+        <li><strong class="pname"><code>img</code></strong> - the i'th image</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="prepare_subject"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">prepare_subject</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.prepare_subject">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Load the subject images into aligner. Prepares self.subject_cnt_stack 
+  and self.subject_stack.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="initial_shift"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">initial_shift</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.initial_shift">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Initialize a global shift. The algorithm finds the best shift of 
+  subject stack relative to the atlas. Prepares 
+  self.allen_match_id_stack_best.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="optimize_atlas_each"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">optimize_atlas_each</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">i</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.optimize_atlas_each">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Optimize each atlas alignment score.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>i</code></strong> - section index</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="optimize_atlas"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">optimize_atlas</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.optimize_atlas">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Optimizes atlas alignment score. Generates a set of pickle files 
+  config.SCORES_FOLDER/scores_allen_x.p. Prepares self.dSA, self.HSA.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="optimize_neighbor_map"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">optimize_neighbor_map</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">i</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.optimize_neighbor_map">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Optimize each neighbor alignment score (Map).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>i</code></strong> - section index</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="optimize_neighbor_each"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">optimize_neighbor_each</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">i</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.optimize_neighbor_each">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Optimize each neighbor alignment score (Map).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>i</code></strong> - section index</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="optimize_neighbor"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">optimize_neighbor</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.optimize_neighbor">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Optimizes neighbor alignment score. Generates a set of pickle files 
+  config.SCORES_FOLDER/scores_neighbor_x.p. Prepares self.dSS, self.HSS</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="global_optimzation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">global_optimzation</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.aligner-pysrc.html#Aligner.global_optimzation">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Global optimization. Prepares self.HSA, self.HSS, self.dGlobal</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="registration-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -314,14 +582,14 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            >Mouse Brain Project</th>
+            ><a class="navbar" target="_top" href="https://github.com/mistycheney/registration.git">registration</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Apr 25 04:19:24 2013
+    Generated by Epydoc 3.0.1 on Tue Jun  4 01:59:55 2013
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

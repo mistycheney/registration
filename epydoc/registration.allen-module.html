@@ -14,6 +14,9 @@
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="registration-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -31,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            >Mouse Brain Project</th>
+            ><a class="navbar" target="_top" href="https://github.com/mistycheney/registration.git">registration</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -39,7 +42,7 @@
   <tr valign="top">
     <td width="100%">
       <span class="breadcrumbs">
-        Package&nbsp;registration ::
+        <a href="registration-module.html">Package&nbsp;registration</a> ::
         Module&nbsp;allen
       </span>
     </td>
@@ -58,11 +61,7 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module allen</h1><p class="nomargin-top"><span class="codelink"><a href="registration.allen-pysrc.html">source&nbsp;code</a></span></p>
-<pre class="literalblock">
-
-Functions for downloading and querying the Allen atlas images
-
-</pre>
+<p>Functions for downloading and querying the Allen atlas images</p>
 
 <!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -87,78 +86,10 @@ Functions for downloading and querying the Allen atlas images
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="get_api_response"></a><span class="summary-sig-name">get_api_response</span>(<span class="summary-sig-arg">url</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#get_api_response">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="get_filename"></a><span class="summary-sig-name">get_filename</span>(<span class="summary-sig-arg">dataset_id</span>,
-        <span class="summary-sig-arg">section_num</span>,
-        <span class="summary-sig-arg">clean</span>=<span class="summary-sig-default">True</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#get_filename">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="download_atlas"></a><span class="summary-sig-name">download_atlas</span>(<span class="summary-sig-arg">image_id</span>,
-        <span class="summary-sig-arg">downsample</span>,
-        <span class="summary-sig-arg">image_name</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#download_atlas">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="download_image"></a><span class="summary-sig-name">download_image</span>(<span class="summary-sig-arg">image_id</span>,
-        <span class="summary-sig-arg">downsample</span>,
-        <span class="summary-sig-arg">image_name</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#download_image">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="response_to_matrix"></a><span class="summary-sig-name">response_to_matrix</span>(<span class="summary-sig-arg">a</span>,
-        <span class="summary-sig-arg">d</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.allen-module.html#response_to_matrix" class="summary-sig-name">response_to_matrix</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">d</span>)</span><br />
+      Utility function that interprets the web API response to a transform 
+      matrix</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.allen-pysrc.html#response_to_matrix">source&nbsp;code</a></span>
             
@@ -174,9 +105,10 @@ Functions for downloading and querying the Allen atlas images
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="query_dataset"></a><span class="summary-sig-name">query_dataset</span>(<span class="summary-sig-arg">dataset_id</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.allen-module.html#query_atlas_info" class="summary-sig-name">query_atlas_info</a>(<span class="summary-sig-arg">atlas_name</span>)</span><br />
+      Get information of atlas.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#query_dataset">source&nbsp;code</a></span>
+            <span class="codelink"><a href="registration.allen-pysrc.html#query_atlas_info">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -190,115 +122,11 @@ Functions for downloading and querying the Allen atlas images
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="download_dataset"></a><span class="summary-sig-name">download_dataset</span>(<span class="summary-sig-arg">dataset_id</span>)</span></td>
+          <td><span class="summary-sig"><a href="registration.allen-module.html#download_atlas" class="summary-sig-name">download_atlas</a>(<span class="summary-sig-arg">atlas_name</span>,
+        <span class="summary-sig-arg">downsample</span>=<span class="summary-sig-default">4</span>)</span><br />
+      Download the images of an atlas</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#download_dataset">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="point_to_reference_imageid"></a><span class="summary-sig-name">point_to_reference_imageid</span>(<span class="summary-sig-arg">image_id</span>,
-        <span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">downsample</span>,
-        <span class="summary-sig-arg">tier_count</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#point_to_reference_imageid">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="points_to_reference"></a><span class="summary-sig-name">points_to_reference</span>(<span class="summary-sig-arg">dataset_id</span>,
-        <span class="summary-sig-arg">section_number</span>,
-        <span class="summary-sig-arg">kp_list</span>,
-        <span class="summary-sig-arg">downsample</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#points_to_reference">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="point_to_reference_sectionnum_api"></a><span class="summary-sig-name">point_to_reference_sectionnum_api</span>(<span class="summary-sig-arg">dataset_id</span>,
-        <span class="summary-sig-arg">section_number</span>,
-        <span class="summary-sig-arg">kp_list</span>,
-        <span class="summary-sig-arg">downsample</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#point_to_reference_sectionnum_api">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="get_secnums"></a><span class="summary-sig-name">get_secnums</span>(<span class="summary-sig-arg">dataset_id</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#get_secnums">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="download_specimen"></a><span class="summary-sig-name">download_specimen</span>(<span class="summary-sig-arg">specimen_id</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#download_specimen">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="retrieve_specimens"></a><span class="summary-sig-name">retrieve_specimens</span>(<span class="summary-sig-arg">specimen_id</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="registration.allen-pysrc.html#retrieve_specimens">source&nbsp;code</a></span>
+            <span class="codelink"><a href="registration.allen-pysrc.html#download_atlas">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -332,10 +160,108 @@ Functions for downloading and querying the Allen atlas images
     </td>
   </tr>
 </table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Function Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-FunctionDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="response_to_matrix"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">response_to_matrix</span>(<span class="sig-arg">a</span>,
+        <span class="sig-arg">d</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.allen-pysrc.html#response_to_matrix">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Utility function that interprets the web API response to a transform 
+  matrix</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - response array</li>
+        <li><strong class="pname"><code>d</code></strong> - 2 for 2D transform (6 parameters); 3 for 3D transform (12 
+          parameters)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="query_atlas_info"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">query_atlas_info</span>(<span class="sig-arg">atlas_name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.allen-pysrc.html#query_atlas_info">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get information of atlas. If cached, directly load from local; 
+  otherwise query web API.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>atlas_name</code></strong> - Name of atlas</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="download_atlas"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">download_atlas</span>(<span class="sig-arg">atlas_name</span>,
+        <span class="sig-arg">downsample</span>=<span class="sig-default">4</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="registration.allen-pysrc.html#download_atlas">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Download the images of an atlas</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>atlas_name</code></strong> - Name of atlas</li>
+        <li><strong class="pname"><code>downsample</code></strong> - downsample level, default is 4</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="registration-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -353,14 +279,14 @@ Functions for downloading and querying the Allen atlas images
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            >Mouse Brain Project</th>
+            ><a class="navbar" target="_top" href="https://github.com/mistycheney/registration.git">registration</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Apr 25 04:19:24 2013
+    Generated by Epydoc 3.0.1 on Tue Jun  4 01:59:55 2013
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

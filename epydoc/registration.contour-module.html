@@ -14,6 +14,9 @@
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="registration-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -31,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            >Mouse Brain Project</th>
+            ><a class="navbar" target="_top" href="https://github.com/mistycheney/registration.git">registration</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -39,7 +42,7 @@
   <tr valign="top">
     <td width="100%">
       <span class="breadcrumbs">
-        Package&nbsp;registration ::
+        <a href="registration-module.html">Package&nbsp;registration</a> ::
         Module&nbsp;contour
       </span>
     </td>
@@ -58,11 +61,8 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module contour</h1><p class="nomargin-top"><span class="codelink"><a href="registration.contour-pysrc.html">source&nbsp;code</a></span></p>
-<pre class="literalblock">
-
-Functions for extracting contours and applying image transformations
-
-</pre>
+<p>Functions for extracting contours and applying image 
+  transformations</p>
 
 <!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -130,7 +130,8 @@ Functions for extracting contours and applying image transformations
         <span class="summary-sig-arg">show</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">title</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">color</span>=<span class="summary-sig-default">255</span>)</span><br />
-      A utility function that returns a white-background image showing the contour given by cnts.</td>
+      A utility function that returns a white-background image showing the 
+      contour given by cnts.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.contour-pysrc.html#draw_contours">source&nbsp;code</a></span>
             
@@ -151,8 +152,8 @@ Functions for extracting contours and applying image transformations
         <span class="summary-sig-arg">anchor_im</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">centroid</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">anchor_bg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">center</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">bg</span>=<span class="summary-sig-default"><code class="variable-group">(</code>800<code class="variable-op">, </code>800<code class="variable-group">)</code></span>)</span><br />
-      Place img on a background canvas, by aligning the anchor_im position on the img 
-with the anchor_bg position on the canvas.</td>
+      Place img on a background canvas, by aligning the anchor_im position 
+      on the img with the anchor_bg position on the canvas.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.contour-pysrc.html#pad_image_cnt">source&nbsp;code</a></span>
             
@@ -200,8 +201,8 @@ with the anchor_bg position on the canvas.</td>
         <span class="summary-sig-arg">outputD</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">title</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">compute_score_cnt</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">variant</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Align the centroids of both images and apply transform around the centroid of the first image, 
-then compute score.</td>
+      Align the centroids of both images and apply transform around the 
+      centroid of the first image, then compute score.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.contour-pysrc.html#compute_score_cnt">source&nbsp;code</a></span>
             
@@ -261,9 +262,10 @@ then compute score.</td>
         <span class="summary-sig-arg">trfm</span>,
         <span class="summary-sig-arg">anchor_im</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">centroid</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">anchor_bg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">center</code><code class="variable-quote">'</code></span>)</span><br />
-      Place img on the background canvas, by aligning the anchor_im position on the img 
-with the anchor_bg position of the background canvas, and then apply trfm 
-on the image (with rotation centered around centroid of the image).</td>
+      Place img on the background canvas, by aligning the anchor_im 
+      position on the img with the anchor_bg position of the background 
+      canvas, and then apply trfm on the image (with rotation centered 
+      around centroid of the image).</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="registration.contour-pysrc.html#transform_cnt">source&nbsp;code</a></span>
             
@@ -372,12 +374,9 @@ on the image (with rotation centered around centroid of the image).</td>
     </td>
   </tr></table>
   
-  <pre class="literalblock">
-
-Place img on a background canvas, by aligning the anchor_im position on the img 
-with the anchor_bg position on the canvas. Return the canvas with image on it.
-
-</pre>
+  <p>Place img on a background canvas, by aligning the anchor_im position 
+  on the img with the anchor_bg position on the canvas. Return the canvas 
+  with image on it.</p>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -400,14 +399,10 @@ with the anchor_bg position on the canvas. Return the canvas with image on it.
     </td>
   </tr></table>
   
-  <pre class="literalblock">
-
-Place img on the background canvas, by aligning the anchor_im position on the img 
-with the anchor_bg position of the background canvas, and then apply trfm 
-on the image (with rotation centered around centroid of the image). Return the 
-canvas with transformed image.
-
-</pre>
+  <p>Place img on the background canvas, by aligning the anchor_im position
+  on the img with the anchor_bg position of the background canvas, and then
+  apply trfm on the image (with rotation centered around centroid of the 
+  image). Return the canvas with transformed image.</p>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -417,6 +412,9 @@ canvas with transformed image.
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="registration-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -434,14 +432,14 @@ canvas with transformed image.
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            >Mouse Brain Project</th>
+            ><a class="navbar" target="_top" href="https://github.com/mistycheney/registration.git">registration</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Apr 25 04:19:24 2013
+    Generated by Epydoc 3.0.1 on Tue Jun  4 01:59:55 2013
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

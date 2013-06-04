@@ -9,12 +9,13 @@ import numpy as np
 if 'HOME' in os.environ and os.environ['HOME'] == '/Users/yuncong':
     DATA_FOLDER = '/Users/yuncong/Documents/workspace/registration/data/'
     PROJ_FOLDER = '/Users/yuncong/Documents/workspace/registration/'
-elif 'HOMEPATH' in os.environ and os.environ['HOMEPATH'] == '\\Users\\velu':
-    DATA_FOLDER = 'C:/Users/velu/Desktop/brain images/'
-    PROJ_FOLDER = 'C:/Users/velu/Desktop/registration/'
+elif 'HOME' in os.environ and os.environ['HOME'] == '/home/yuncong':
+    DATA_FOLDER = '/home/yuncong/Documents/brain_data/'
+    PROJ_FOLDER = '/home/yuncong/workspace/registration/'
 else:
     DATA_FOLDER = '/oasis/scratch/csd181/yuncong/'
     PROJ_FOLDER = '/oasis/scratch/csd181/yuncong/registration/'
+
 SLIDE_FOLDER = DATA_FOLDER + 'Slide/'
 SECTION_FOLDER = DATA_FOLDER + 'Section/'
 ALLEN_FOLDER = DATA_FOLDER + 'Allen/'
@@ -22,7 +23,12 @@ ALLEN_FOLDER = DATA_FOLDER + 'Allen/'
 SCORES_FOLDER = PROJ_FOLDER + 'scores/' 
 SRC_FOLDER = PROJ_FOLDER + 'src/registration/'
 PICKLE_FOLDER = PROJ_FOLDER + 'pickle/'
-TMP_FOLDER = PROJ_FOLDER + 'tmp/'
+# TMP_FOLDER = PROJ_FOLDER + 'tmp/'
+
+atlas_menu = {'p56_coronal':(100048576,'dataset'), 'p56_sagittal':(100042147,'dataset'), 
+           'p56_coronal_complete':(5756,'specimen')}
+
+subject_menu = {'4':40}
 
 ZOOM = 5
 SUBJ_TO_ATLAS_SCALING = 29.248 / 15.2
@@ -44,22 +50,6 @@ KERNEL_SIGMA = 5
 SPLIT_STOP_STD = 7000
 MORPH_ELEMENT_SIZE = 5
 STRUCTURE_ELEMENT = cv2.MORPH_CROSS
-
-# Debug options:
-#SHOW_DETECT = True
-SHOW_DETECT = False
-#SHOW_MATCH = True
-SHOW_MATCH = False
-# preprocessing
-DEBUG = False
-
-#SIFT detect:
-EDGE_THRESH = 50       # how large is the gradient; larger means more points, valid [1,+inf]
-PEAK_THRESH = 0.5      # how high is the extrema in scale space; smaller means more points
-
-#SIFT matching:
-DIST_RATIO = 0.85       # the ratio of shortest vs. second descriptor distance, higher more
-DIST_THRESH = 400       # descriptor distance threshold
 
 #RANSAC parameters:
 class TRANSFORM:

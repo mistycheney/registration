@@ -19,10 +19,19 @@ from registration import scoring
 import time
 
 class Aligner:
-    def __init__(self, subject_id, num_subject):
+    '''
+    Aligner class.
+    '''
+    def __init__(self, subject_id, atlas_name):
+        '''
+        Initialize the aligner.
+        @param subject_id: The id of subject stack
+        @param atlas_name: the name of atlas, for example, 'p50_coronal'. Refer to config.atlas_menu.
+        '''
         self.subject_id = subject_id
+        self.num_subject = config.subject_menu[self.subject_id]
+        self.atlas_name = atlas_name
         self.scaling = config.SUBJ_TO_ATLAS_SCALING
-        self.num_subject = num_subject
         self.subject_stack = [None] * self.num_subject
         self.subject_cnt_stack = [None] * self.num_subject
         
@@ -41,13 +50,18 @@ class Aligner:
         self.dGlobal = dict([])
     
     def prepare_allen(self):
+        '''
+        Load atlas images in the aligner.
+        Prepares self.allen_cnt_stack and self.allen_stack.
+        Prepares self.dA.
+        '''
         sys.stderr.write ('prepare_allen...',)
         begin = time.time()
         from registration import allen
-        info = allen.query_dataset(100048576)
+        info = allen.query_atlas_info(self.atlas_name)
         
         try:
-            self.allen_cnt_stack = pickle.load(open(config.SRC_FOLDER + "allen_cnt_stack.p","rb"))
+            self.allen_cnt_stack = pickle.load(open(config.PICKLE_FOLDER + "allen_cnt_stack.p","rb"))
         except:
             pass
         
@@ -76,33 +90,38 @@ class Aligner:
         
         sys.stderr.write('%d seconds\n' % (time.time() - begin))
         
-    def prepare_allen_whole(self):
-        sys.stderr.write ('prepare_allen_whole...',)
-        begin = time.time()
-        from registration import allen
-        info = allen.query_atlas_info(5756, 'specimen')
-        
-        os.mkdir(config.ALLEN_FOLDER + '5756_warp/')
-        all_warp_name = os.listdir(config.ALLEN_FOLDER + '5756_warp/')
-        for im_id, im_info in info['section_images'].iteritems():
-            if im_info['filename'] in all_warp_name:
-                img = cv2.imread(config.ALLEN_FOLDER + '5756_warp/' + im_info['filename'], 0)
-            else:
-                img = cv2.imread(config.ALLEN_FOLDER + '5756/' + im_info['filename'], 0)
-                img_clean, _ = clean(img, white_bg=False)
-                A = im_info['alignment2d']
-                downsampling = 4
-                A[:, 2] = A[:, 2] / 2 ** (downsampling - 0)
-                #        print A        
-                img = transformA(img_clean, A, (0, 0), (0, 0))
-                cv2.imwrite(config.ALLEN_FOLDER + '5756_warp/' + im_info['filename'], img)
-            
-            img_contour_sample = get_contour_sample(img)
-            self.allen_stack[im_id] = img
-            self.allen_cnt_stack[im_id] = img_contour_sample
-        sys.stderr.write('%d seconds\n' % (time.time() - begin))
+#     def prepare_allen_whole(self):
+#         sys.stderr.write ('prepare_allen_whole...',)
+#         begin = time.time()
+#         from registration import allen
+#         info = allen.query_atlas_info(5756, 'specimen')
+#         
+#         os.mkdir(config.ALLEN_FOLDER + '5756_warp/')
+#         all_warp_name = os.listdir(config.ALLEN_FOLDER + '5756_warp/')
+#         for im_id, im_info in info['section_images'].iteritems():
+#             if im_info['filename'] in all_warp_name:
+#                 img = cv2.imread(config.ALLEN_FOLDER + '5756_warp/' + im_info['filename'], 0)
+#             else:
+#                 img = cv2.imread(config.ALLEN_FOLDER + '5756/' + im_info['filename'], 0)
+#                 img_clean, _ = clean(img, white_bg=False)
+#                 A = im_info['alignment2d']
+#                 downsampling = 4
+#                 A[:, 2] = A[:, 2] / 2 ** (downsampling - 0)
+#                 #        print A        
+#                 img = transformA(img_clean, A, (0, 0), (0, 0))
+#                 cv2.imwrite(config.ALLEN_FOLDER + '5756_warp/' + im_info['filename'], img)
+#             
+#             img_contour_sample = get_contour_sample(img)
+#             self.allen_stack[im_id] = img
+#             self.allen_cnt_stack[im_id] = img_contour_sample
+#         sys.stderr.write('%d seconds\n' % (time.time() - begin))
     
     def prepare_subject_each_img(self, i, img):
+        '''
+        Load the subject images into aligner for each image (Map).
+        @param i: section index
+        @param img: the i'th image
+        '''
         new_size = np.floor(self.scaling * np.array(img.shape))
         h, w = tuple(new_size.astype(np.int))
         img = cv2.resize(img, (w, h))
@@ -120,6 +139,10 @@ class Aligner:
 
 #    @timeit
     def prepare_subject(self):
+        '''
+        Load the subject images into aligner.
+        Prepares self.subject_cnt_stack and self.subject_stack.
+        '''
         sys.stderr.write ('prepare_subject...'),
         begin = time.time()
         try:
@@ -127,15 +150,22 @@ class Aligner:
         except:
             pass
         for i in range(self.num_subject):
-            img = cv2.imread(config.SECTION_FOLDER + '4/4_%d.tif' % i, 0)
+            img = cv2.imread(config.SECTION_FOLDER + 
+                '%s/%s_%d.tif' % (self.subject_id, self.subject_id, i),
+                 0)
             self.prepare_subject_each_img(i, img)
         sys.stderr.write('%d seconds\n' % (time.time() - begin))
                     
     def initial_shift(self):
+        '''
+        Initialize a global shift. 
+        The algorithm finds the best shift of subject stack relative to the atlas.
+        Prepares self.allen_match_id_stack_best.
+        '''
         sys.stderr.write ('initial_shift...'),
         begin = time.time()
         try:
-            self.allen_match_id_stack_best = pickle.load(open(config.SRC_FOLDER + 
+            self.allen_match_id_stack_best = pickle.load(open(config.PICKLE_FOLDER + 
                                         'allen_match_id_stack_best.p', 'rb'))
         except:
             min_score = 9999
@@ -167,14 +197,21 @@ class Aligner:
                 if total_score < min_score:
                     min_score = total_score
                     self.allen_match_id_stack_best = allen_match_id_stack
+                
+            pickle.dump(self.allen_match_id_stack_best,
+                        open(config.PICKLE_FOLDER + 'allen_match_id_stack_best.p', 'wb'))
         sys.stderr.write('%d seconds\n' % (time.time() - begin))
     
     def optimize_map(self, i):
-        self.optimize_atlas_map(i)
+        self.optimize_atlas_each(i)
         self.optimize_neighbor_map(i)
     
-    def optimize_atlas_map(self, i):
-        sys.stderr.write('optimize_atlas...'),
+    def optimize_atlas_each(self, i):
+        '''
+        Optimize each atlas alignment score.
+        @param i: section index
+        '''
+        sys.stderr.write('optimize_atlas, section %d...'%i),
         begin = time.time()
         try:
             scores = pickle.load(open(config.SCORES_FOLDER + 'scores_allen_%d.p' % i, 'rb'))
@@ -197,20 +234,28 @@ class Aligner:
         sys.stderr.write ('%d seconds\n' % (time.time() - begin))
 
     def optimize_atlas(self):
+        '''
+        Optimizes atlas alignment score.
+        Generates a set of pickle files config.SCORES_FOLDER/scores_allen_x.p.
+        Prepares self.dSA, self.HSA.
+        '''
         for i in range(self.num_subject):
 #            sys.stderr.write(str(i))
-            self.optimize_atlas_map(i)
+            self.optimize_atlas_each(i)
             
 
     def optimize_neighbor_map(self, i):
-        sys.stderr.write('optimize_neighbor...'),
+        '''
+        Optimize each neighbor alignment score (Map).
+        @param i: section index
+        '''
+        sys.stderr.write('optimize_neighbor, section %d...'%i),
         begin = time.time()
         try:
             scores = pickle.load(open(config.SCORES_FOLDER + 'scores_neighbor_%d.p' % i, 'rb'))
         except:
-#        sys.stderr.write(config.SECTION_FOLDER+'4/4_'+str(i+1)+'.tif')
-
-            img_prev = cv2.imread(config.SECTION_FOLDER + '4/4_' + str(i-1) + '.tif', 0)
+            img_prev = cv2.imread(config.SECTION_FOLDER + '%s/%s_'%(self.subject_id,self.subject_id) +
+                                   str(i-1) + '.tif', 0)
             new_size = np.floor(self.scaling * np.array(img_prev.shape))
             h, w = tuple(new_size.astype(np.int))
             img_prev = cv2.resize(img_prev, (w, h))
@@ -223,15 +268,18 @@ class Aligner:
         sys.stderr.write ('%d seconds\n' % (time.time() - begin))
 
     def optimize_neighbor_each(self, i):
-        sys.stderr.write('optimize_neighbor...'),
+        '''
+        Optimize each neighbor alignment score (Map).
+        @param i: section index
+        '''
+        sys.stderr.write('optimize_neighbor, section %d...'%i),
         begin = time.time()
         try:
             scores = pickle.load(open(config.SCORES_FOLDER + 'scores_neighbor_%d.p' % i, 'rb'))
         except:
             scores = compute_scores_cnt(self.subject_stack[i], self.subject_cnt_stack[i],
                                     self.subject_stack[i-1], self.subject_cnt_stack[i-1],
-                                    self.tx_range, self.ty_range, self.theta_range,
-                                    show=False)
+                                    self.tx_range, self.ty_range, self.theta_range)
             pickle.dump(scores, open(config.SCORES_FOLDER + 'scores_neighbor_%d.p' % i, 'wb'))
             
         sr = scoring.ScoreReader(scores)
@@ -244,11 +292,19 @@ class Aligner:
         sys.stderr.write ('%d seconds\n' % (time.time() - begin))
 
     def optimize_neighbor(self):
+        '''
+        Optimizes neighbor alignment score.
+        Generates a set of pickle files config.SCORES_FOLDER/scores_neighbor_x.p.
+        Prepares self.dSS, self.HSS
+        '''
         for i in range(1, self.num_subject):
-#            sys.stderr.write (str(i))
             self.optimize_neighbor_each(i)
             
     def global_optimzation(self):
+        '''
+        Global optimization.
+        Prepares self.HSA, self.HSS, self.dGlobal
+        '''
         A = scipy.sparse.lil_matrix((3 * (2 * self.num_subject - 1), 3 * self.num_subject))
         b = np.zeros((3 * (2 * self.num_subject - 1), 1))
         for i in range(0, self.num_subject):
@@ -277,8 +333,6 @@ class Aligner:
     
             
 if __name__ == '__main__':
-    alnr = Aligner('4', 40)
+    alnr = Aligner('4', 'p56_coronal')
     alnr.prepare_allen_whole()
-    
-
     

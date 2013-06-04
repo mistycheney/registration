@@ -15,8 +15,8 @@ class ScoreReader:
         '''
         Initiate a ScoreReader, load a score surface.
         "scores" specifies the name of the score surface, 
-            scores_allen_3 means the atlas alignment score for section 3 
-            scores_neighbor_5 means the neighbor alignment score for section 5 
+        scores_allen_3 means the atlas alignment score for section 3 
+        scores_neighbor_5 means the neighbor alignment score for section 5 
         '''
         self.tx_range = config.TX_RANGE
         self.ty_range = config.TY_RANGE
