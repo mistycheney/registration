@@ -59,4 +59,5 @@ Setup/Run Project
     cd registration
     mkdir scores
     chmod 766 scores
+    # upload brain_data/Section/4 to hdfs
     source gordon_scripts/runAlign.sh 4 dummy_out src/registration/run_map.py
